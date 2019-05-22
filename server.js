@@ -40,7 +40,13 @@ app.use("/api/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  knex
+      .select("*")
+      .from("users")
+      .then((users) => {
+        res.render("index", {users});
+    });
+  
 });
 
 app.listen(PORT, () => {

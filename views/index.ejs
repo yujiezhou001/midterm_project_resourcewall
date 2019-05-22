@@ -13,5 +13,10 @@
 
   <body>
     <h1>Hello World!</h1>
+    <ul>
+    <% for (var user of users) {%>
+      <li><%= user.name %></li>
+    <% } %>
+    </ul>
   </body>
 </html>
