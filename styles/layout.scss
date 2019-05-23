@@ -5,3 +5,26 @@ body {
     color: #244751;
   }
 }
+
+#login{
+    margin: 2em auto;
+    max-width: 500px;
+    width: 100%;
+
+    nav{
+      font-size: 2em;
+      display: flex;
+    }
+
+  form{
+    border: 1px solid #000;
+    background: white;
+    padding: 2em;
+    border-radius: 15px;
+
+    input{
+      margin-bottom: 1em;
+    }
+  }
+
+}
