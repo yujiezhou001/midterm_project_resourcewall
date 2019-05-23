@@ -5,6 +5,7 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       return Promise.all([
         // Inserts seed entries
+        knex.raw('ALTER SEQUENCE topics_id_seq RESTART WITH 1'),
         knex('topics').insert({id: 1, default_img: 'http://lorempixel.com/640/360/', name: 'music'}),
         knex('topics').insert({id: 2, default_img: 'http://lorempixel.com/640/360/', name: 'cooking'}),
         knex('topics').insert({id: 3, default_img: 'http://lorempixel.com/640/360/', name: 'languages'}),
