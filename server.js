@@ -106,6 +106,32 @@ app.get("/user/:id/my_resource", (req, res) => {
   res.render("my_resources", templateVars);
 });
 
+//------------- POST ----------//
+
+app.post("/login", (req, res) => {
+  
+  res.redirect("/index");
+});
+
+app.post("/register", (req, res) => {
+  
+  res.redirect("/index");
+});
+
+app.post("/logout", (req, res) => {
+  
+  res.redirect("/");
+});
+
+app.post("/resource", (req, res) => {
+  
+  res.redirect("/index");
+});
+
+app.post("/user/:id", (req, res) => {
+  
+  res.redirect("/profile");
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
