@@ -5,3 +5,17 @@ body {
     color: #244751;
   }
 }
+
+#login{
+  main{
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  div{
+    border: 1px solid #000;
+    background: red;
+    padding: 2em;
+  }
+}
