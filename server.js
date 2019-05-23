@@ -38,6 +38,7 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
+//------------- GET ----------//
 // Home page
 app.get("/", (req, res) => {
   knex
@@ -48,6 +49,63 @@ app.get("/", (req, res) => {
     });
   
 });
+
+app.get("/login", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("login", templateVars);
+});
+
+app.get("/register", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("register", templateVars);
+});
+
+app.get("/resource", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("index", templateVars);
+});
+
+app.get("/resource/:card_id", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("one_resource", templateVars);
+});
+
+app.get("/resource/topic/:name", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("index", templateVars); 
+});
+
+app.get("/resource/search/:query", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("index", templateVars); 
+});
+
+app.get("/user/:id", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("profile", templateVars);
+});
+
+app.get("/user/:id/my_resource", (req, res) => {
+  let templateVars = {    
+  };
+
+  res.render("my_resources", templateVars);
+});
+
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
