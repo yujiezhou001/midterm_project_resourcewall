@@ -1,0 +1,21 @@
+.header {
+  i {
+    font-size: 1.6em;
+    .icon-logo {
+      color: rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .icon-title {
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0 0.5em;
+    font-size: 1.6em;
+  }
+}
+
+.navbar-nav {
+  .dropdown-menu {
+    margin-left: -3em;
+    min-width: inherit;
+  }
+}

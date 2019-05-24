@@ -1,8 +1,21 @@
+@import "views/index.scss";
+@import "modules/nav.scss";
+@import "modules/form.scss";
+@import "modules/card.scss";
+
+/* $dark-grey: #656565; */
+
 body {
+  font-family: 'Raleway', sans-serif;
   background-color: #EEE;
 
   h1 {
     color: #244751;
+  }
+
+  main{
+    
+
   }
 }
 
