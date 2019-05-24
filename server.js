@@ -41,9 +41,33 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
-//------------- GET ----------//
+const faker = require('faker')
 
-// Home page
+const resources = [
+        {id: 1, url: 'http://lorempixel.com/640/360/', title: 'ubuntu',  description: 'Web dev is so fun!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 2, url: 'http://lorempixel.com/640/360/', title: 'new recipe', description: 'Spicy chicken curry!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 3, url: 'https://learnenglish.britishcouncil.org/english-grammar', title: 'Learn English', description: 'Tutorial on English grammar for beginners', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 4, url: 'http://lorempixel.com/640/360/', title: 'new photo', description: 'My newest photo', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 5, url: 'http://lorempixel.com/640/360/', title: 'new idea', description: 'I want this bike', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 6, url: 'http://lorempixel.com/640/360/', title: 'my dog', description: 'My dog is performing magic', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 7, url: 'https://youtu.be/zctLck0TJNk', title: 'Advanced drumming techniques', description: 'Video on best warm-up techniques before a big show and creativity', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 8, url: 'https://dadwithapan.com/', title: 'Recipes for the busy dad', description: 'This blog is great if you’re a busy dad (partially or largely because you have kids) but you still need to feed them and yourself.', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 9, url: 'https://www.rejectiontherapy.com/100-days-of-rejection-therapy', title: 'Do the 100 days of rejection challenge', description: 'blog on how to face & overcome rejection which is paramount to success as an entrepreneur', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
+        {id: 10, url: 'https://youtu.be/VWw_1-gEdLA', title: 'Magic tricks for beginners', description: 'Video showing easy magic tricks anyone can do!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})}
+      ]
+
+const topics = [
+        // Inserts seed entries
+        {id: 1, default_img: 'http://lorempixel.com/640/360/', name: 'music'},
+        {id: 2, default_img: 'http://lorempixel.com/640/360/', name: 'cooking'},
+        {id: 3, default_img: 'http://lorempixel.com/640/360/', name: 'languages'},
+        {id: 4, default_img: 'http://lorempixel.com/640/360/', name: 'arts_and_crafts'},
+        {id: 5, default_img: 'http://lorempixel.com/640/360/', name: 'life_hacks'},
+        {id: 6, default_img: 'http://lorempixel.com/640/360/', name: 'magic_tricks'},
+        {id: 7, default_img: 'http://lorempixel.com/640/360/', name: 'web_dev'}
+      ]
+
+//------------- GET ----------//
 
 
 
@@ -54,18 +78,18 @@ app.get("/", (req, res) => {
   // if (!user_session){
   //   res.redirect("/login")
   // } else{
-  //   res.redirect("/resources");
+    res.redirect("/resources");
     // res.render("/resources", templateVars);
   // }
 
-  knex
-      .select("*")
-      .from("users")
-      .then((users) => {
-        res.render("index", {users});
-        // res.render("temp");
-        // res.send(users)
-    });
+  // knex
+  //   .select("*")
+  //   .from("users")
+  //   .then((users) => {
+  //       // res.render("index", {users});
+  //       res.render("temp");
+  //       // res.send(users)
+  //   });
 });
 
 
@@ -84,22 +108,51 @@ app.get("/register", (req, res) => {
   res.render("register", templateVars);
 });
 
-app.get("/resources", (req, res) => {
-//       knex
-//       .select("*")
-//       .from("resources")
-//       .then(results) => {
-//         const templateVars= {resources: results}
-//         res.render("index", templateVars);
-// };
 
-  res.render("index", templateVars);
+
+
+app.get("/resources", (req, res) => {
+  // knex.select("*")
+  // .from("resources")
+  // .then(results => {
+  //   const templateVars= {resources: results}
+  //   res.render("index", templateVars);
+  // });
+  // const templateVarswithresources = {resources: resources, topics:topics}
+  const templateVars = {}
+  knex
+  .select("*")
+  .from("resources")
+  .then(results => {
+    // res.send(results)
+      templateVars.resources = results
+
+  })
+  .then(
+    knex
+    .select("*")
+    .from("topics")
+    .then(results => {
+      templateVars.topics = results
+      res.render("index", templateVars)
+    })
+  )
+
+
+
+  console.log(templateVars);
+  // res.send(resources)
+  // const topics = knex.select("*").from("topics")
+
+  // const templateVars = {'resources':resources,
+  //                       'topics':topics};
+
+  // res.render("index", templateVars);
 });
 
 app.get("/resources/:card_id", (req, res) => {
   let templateVars = {
   };
-
   res.render("one_resource", templateVars);
 });
 
@@ -109,9 +162,14 @@ app.get("/resources/topic/:name", (req, res) => {
   res.render("index", templateVars);
 });
 
-app.get("/resources/search/:query", (req, res) => {
-  let templateVars = {
-  };
+app.get("/resources/search", (req, res) => {
+
+  // const resourcesFromSearch = knex.select(*).from('resources').where('description', 'like', `%{req.query.myQuery}%`);
+  // const topics = knex.select(*).from('topics');
+  console.log(req.query)
+  // let templateVars = { resources: resourcesFromSearch,
+                          // topics: topics
+  // };
   res.render("index", templateVars);
 });
 
@@ -155,18 +213,22 @@ app.post("/logout", (req, res) => {
 app.post("/resources", (req, res) => {
 
  const resourceObj =  {
-    url: req.body.url,
-    title: req.body.title,
-    description: req.body.description,
-    topic: req.body.value
+    url: req.body.theURL,
+    title: req.body.theTitle,
+    description: req.body.theDescription,
+    topic_id: req.body.topic,
+    user_id: 1
+    //using 1 until we figure out how to get the acutal user id, maybe like this: req.params.user_id
   }
+  // console.log(req.body)
+  // console.log(resourceObj);
+  res.redirect('/resources');
 
-  knex ('resources')
-  .insert(resourceObj)
-
-  .into('resources')
-  .then(response)
-  .catch(err)
+  // knex('resources')
+  // .insert(resourceObj)
+  // .into('resources')
+  // .then(response => {res.redirect("/resources")})
+  // .catch(err => {})
 });
 
 app.post("/user/:id", (req, res) => {

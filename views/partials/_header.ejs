@@ -5,8 +5,8 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+    <form class="form-inline my-2 my-lg-0" method="GET" action="/resources/search">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="myQuery">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
 
@@ -14,7 +14,7 @@
       <li class="nav-item active">
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
-      <li> <button type="button" class="btn btn-light">Light</button> </li>
+      <li> <button type="button" class="btn btn-light" id="addButton" onclick="" > Add + </button> </li>
 
       <li class="nav-item">
         <a class="nav-link" href="#">Link</a>
