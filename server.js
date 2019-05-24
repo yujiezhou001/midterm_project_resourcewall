@@ -1,6 +1,7 @@
 "use strict";
 
 require("dotenv").config();
+const faker = require("faker");
 
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
@@ -40,8 +41,6 @@ app.use(express.static("public"));
 
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
-
-const faker = require('faker')
 
 const resources = [
         {id: 1, url: 'http://lorempixel.com/640/360/', title: 'ubuntu',  description: 'Web dev is so fun!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
@@ -196,7 +195,7 @@ app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
 
   knex("users")
-    .insert({ username, email, password })
+    .insert({ username, email, password, user_img: faker.internet.avatar() })
     .then(function(result) {
       console.log(result)
       // ({ success: true, message: "ok" });

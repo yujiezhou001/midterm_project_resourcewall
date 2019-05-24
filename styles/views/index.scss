@@ -1,0 +1,25 @@
+#openning {
+  display: none;
+}
+
+#openForm {
+  background: #fff;
+  border-bottom: 1px solid $dark-grey;
+  border-left: 1px solid $dark-grey;
+  border-right: 1px solid $dark-grey;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  float: right;
+  margin: -1px 1em;
+}
+
+.form-adding {
+  padding: 0px 4em;
+  border-bottom: 1px solid $dark-grey;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
