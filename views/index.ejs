@@ -4,21 +4,9 @@
   <% include ./partials/_header %>
   <main>
     <h1></h1>
-
-<!-- Topics buttons -->
-<section>
-<button type="button" class="btn btn-outline-dark">Music</button>
-<button type="button" class="btn btn-outline-dark">Web Dev</button>
-<button type="button" class="btn btn-outline-dark">Cooking</button>
-<button type="button" class="btn btn-outline-dark">Languages</button>
-<button type="button" class="btn btn-outline-dark">Arts & Crafts</button>
-<button type="button" class="btn btn-outline-dark">Magic Tricks</button>
-<button type="button" class="btn btn-outline-dark">Life Hacks</button>
-</section>
-
     <!-- The hidden form on homepage-->
     <section id="openning">
-      <form class="form-adding">
+      <form class="form-adding" action="/resources" method="POST">
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-2 col-form-label">URL</label>
           <div class="col-sm-10">
@@ -31,56 +19,6 @@
           <div class="col-sm-10">
             <input type="text" class="form-control" id="theTitle" name="theTitle" placeholder="Title for your resource">
           </div>
-  <!-- The hidden form on homepage-->
-  <section>
-    <form action="/resources" method="POST">
-  <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">URL</label>
-    <div class="col-sm-10">
-      <input type="url" class="form-control" id="theExternalURL" name="theURL" placeholder="Your awesome URL">
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-2 col-form-label">Title</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="theTitle" name="theTitle" placeholder="Title for your resource">
-    </div>
-  </div>
-      <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-2 col-form-label">Description</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="description"
-      name="theDescription" placeholder="Your description">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Topics</legend>
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="topic" id="gridRadios1" value="music" checked>
-          <label class="form-check-label" for="gridRadios1">
-            Music
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="cooking">
-          <label class="form-check-label" for="gridRadios2">
-            Cooking like a champ
-          </label>
-        </div>
-             <div class="form-check">
-          <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="languages">
-          <label class="form-check-label" for="gridRadios2">
-            Languages
-          </label>
-        </div>
-             <div class="form-check">
-          <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="artsAndCrafts">
-          <label class="form-check-label" for="gridRadios2">
-            Arts & Crafts
-          </label>
         </div>
         <div class="form-group row">
           <label for="inputEmail3" class="col-sm-2 col-form-label">Description</label>
@@ -94,110 +32,101 @@
             <legend class="col-form-label col-sm-2 pt-0">Topics</legend>
             <div class="col-sm-10 groupe-btn-topic">
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios1" value="music" checked>
                 <label class="form-check-label" for="gridRadios1">
                   Music
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="cooking">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="cooking">
                 <label class="form-check-label" for="gridRadios2">
                   Cooking like a champ
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="languages">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="languages">
                 <label class="form-check-label" for="gridRadios2">
                   Languages
                 </label>
               </div>
               <div class="form-check">
-                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="artsAndCrafts">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="artsAndCrafts">
                 <label class="form-check-label" for="gridRadios2">
                   Arts & Crafts
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="lifeHacks">
+                <label class="form-check-label" for="gridRadios2">
+                  Life hacks
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="magicTricks">
+                <label class="form-check-label" for="gridRadios2">
+                  Magic tricks
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="topic" id="gridRadios2" value="webDev">
+                <label class="form-check-label" for="gridRadios2">
+                  Web dev
                 </label>
               </div>
             </div>
           </div>
         </fieldset>
-
         <div class="form-group row">
           <div class="col-sm-10">
-            <button type="submit" class="btn btn-primary">Sign in</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </form>
     </section>
+
     <button type="button" id="openForm" class="btn"> + Add resource</button>
-    <!-- our resources cards section -->
+
+    <!-- topic btn -->
+
+    <!-- Topics buttons -->
+    <section>
+      <button type="button" class="btn btn-outline-dark">Music</button>
+      <button type="button" class="btn btn-outline-dark">Web Dev</button>
+      <button type="button" class="btn btn-outline-dark">Cooking</button>
+      <button type="button" class="btn btn-outline-dark">Languages</button>
+      <button type="button" class="btn btn-outline-dark">Arts & Crafts</button>
+      <button type="button" class="btn btn-outline-dark">Magic Tricks</button>
+      <button type="button" class="btn btn-outline-dark">Life Hacks</button>
+    </section>
+
+    <!-- *********************** actual proper code but breaks page for now because no DB.****************** -->
+
+    <%const matchTopic = topic_id_in_resources => Object.values(topics).find(topicsObjFromDb => topicsObjFromDb.id === topic_id_in_resources);%>
+
+
+
     <div class="card-container">
-      <% for (let i = 0; i < 8; i++) {%>
+      <% for (var resource of resources) { %>
       <section>
         <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="https://placekitten.com/640/360" alt="Card image cap">
+          <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title"><%= resource.title %></h5>
+            <p class="card-text"><%= resource.description %></p>
+            <a href="<%= resource.url %>" target="_blank" class="btn btn-primary"> Check it out!</a>
           </div>
         </div>
       </section>
-      <%  }  %>
+      <% } %>
     </div>
 
   </main>
   <script>
     $("#openForm").click(function () {
       $("#openning").slideToggle("slow", function () {
-        // Animation complete.
       });
     });
   </script>
 </body>
 
-</html>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </div>
-</form>
-</section>
-
-<!-- our resources cards section -->
-<section>
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="the default url in db" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">resource.title</h5>
-    <p class="card-text">The description Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Check it out!</a>
-  </div>
-</div>
-</section>
-
-
-<!-- *********************** actual proper code but breaks page for now because no DB.****************** -->
-
-  <%const matchTopic = topic_id_in_resources => Object.values(topics).find(topicsObjFromDb => topicsObjFromDb.id === topic_id_in_resources);%>
-
-
-
-
-  <% for (var resource of resources) { %>
-    <div class="card" style="width: 18rem;">
-     <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
-      <div class="card-body">
-       <h5 class="card-title"><%= resource.title %></h5>
-        <p class="card-text"><%= resource.description %></p>
-        <a href="<%= resource.url %>" target="_blank" class="btn btn-primary" > Check it out!</a>
-      </div>
-    </div>
- <% } %>
-
-
-
-  </body>
 </html>
