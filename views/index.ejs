@@ -20,6 +20,16 @@
      <% include ./partials/_header %>
     <h1></h1>
 
+<!-- Topics buttons -->
+<section>
+<button type="button" class="btn btn-outline-dark">Music</button>
+<button type="button" class="btn btn-outline-dark">Web Dev</button>
+<button type="button" class="btn btn-outline-dark">Cooking</button>
+<button type="button" class="btn btn-outline-dark">Languages</button>
+<button type="button" class="btn btn-outline-dark">Arts & Crafts</button>
+<button type="button" class="btn btn-outline-dark">Magic Tricks</button>
+<button type="button" class="btn btn-outline-dark">Life Hacks</button>
+</section>
 
   <!-- The hidden form on homepage-->
   <section>
@@ -108,7 +118,7 @@
   </div>
   <div class="form-group row">
     <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
 </form>
@@ -119,12 +129,28 @@
 <div class="card" style="width: 18rem;">
   <img class="card-img-top" src="the default url in db" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+    <h5 class="card-title">resource.title</h5>
+    <p class="card-text">The description Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <a href="#" class="btn btn-primary">Check it out!</a>
   </div>
 </div>
 </section>
+
+
+<!-- *********************** actual proper code but breaks page for now because no DB.****************** -->
+
+  <%/* for (var resource of resources) { */%>
+    <div class="card" style="width: 18rem;">
+     <img class="card-img-top" src="the default url in db" alt="Card image cap">
+      <div class="card-body">
+       <h5 class="card-title"><%=/* resource.title */%></h5>
+        <p class="card-text"><%=/* resource.description */ %></p>
+        <a href="#" class="btn btn-primary"><%=/* resource.externalURL */%></a>
+      </div>
+    </div>
+ <%/* } */%>
+
+
 
     <ul>
     <% for (var user of users) {%>

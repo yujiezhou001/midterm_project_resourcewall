@@ -39,68 +39,91 @@ app.use(express.static("public"));
 // app.use("/api/users", usersRoutes(knex));
 
 //------------- GET ----------//
+
 // Home page
+
+
+
+
 app.get("/", (req, res) => {
+  // let user_session = req.params['users_id'] // is that the field id in users table?
+  // let templateVars = {} // main page content
+  // if (!user_session){
+  //   res.redirect("/login")
+  // } else{
+  //   res.redirect("/resources");
+    // res.render("/resources", templateVars);
+  // }
+
   knex
       .select("*")
       .from("users")
       .then((users) => {
         res.render("index", {users});
+        // res.render("temp");
+        // res.send(users)
     });
-  
+
 });
 
+
+
 app.get("/login", (req, res) => {
-  let templateVars = {    
+  let templateVars = {
   };
 
   res.render("login", templateVars);
 });
 
 app.get("/register", (req, res) => {
-  let templateVars = {    
+  let templateVars = {
   };
 
   res.render("register", templateVars);
 });
 
-app.get("/resource", (req, res) => {
-  let templateVars = {    
-  };
+app.get("/resources", (req, res) => {
+//       knex
+//       .select("*")
+//       .from("resources")
+//       .then(results) => {
+//         const templateVars= {resources: results}
+//         res.render("index", templateVars);
+// };
 
   res.render("index", templateVars);
 });
 
-app.get("/resource/:card_id", (req, res) => {
-  let templateVars = {    
+app.get("/resources/:card_id", (req, res) => {
+  let templateVars = {
   };
 
   res.render("one_resource", templateVars);
 });
 
-app.get("/resource/topic/:name", (req, res) => {
-  let templateVars = {    
+app.get("/resources/topic/:name", (req, res) => {
+  let templateVars = {
   };
 
-  res.render("index", templateVars); 
+  res.render("index", templateVars);
 });
 
-app.get("/resource/search/:query", (req, res) => {
-  let templateVars = {    
+app.get("/resources/search/:query", (req, res) => {
+  let templateVars = {
   };
 
-  res.render("index", templateVars); 
+  res.render("index", templateVars);
 });
 
 app.get("/user/:id", (req, res) => {
-  let templateVars = {    
+  let templateVars = {
   };
 
   res.render("profile", templateVars);
 });
 
-app.get("/user/:id/my_resource", (req, res) => {
-  let templateVars = {    
+app.get("/user/:id/my_resources", (req, res) => {
+  let templateVars = {
   };
 
   res.render("my_resources", templateVars);
@@ -109,30 +132,47 @@ app.get("/user/:id/my_resource", (req, res) => {
 //------------- POST ----------//
 
 app.post("/login", (req, res) => {
-  
+
   res.redirect("/index");
 });
 
 app.post("/register", (req, res) => {
-  
+
   res.redirect("/index");
 });
 
 app.post("/logout", (req, res) => {
-  
+
   res.redirect("/");
 });
 
-app.post("/resource", (req, res) => {
-  
+app.post("/resources", (req, res) => {
+
+ const resourceObj =  {
+    url: req.body.url,
+    title: req.body.title,
+    description: req.body.description,
+    topic: req.body.value
+  }
+
+  knex ('resources')
+  .insert(resourceObj)
+
+  .into('resources')
+  .then(response)
+  .catch(err)
+
   res.redirect("/index");
 });
 
 app.post("/user/:id", (req, res) => {
-  
+
   res.redirect("/profile");
 });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
+
+
+// }
