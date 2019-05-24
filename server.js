@@ -1,6 +1,7 @@
 "use strict";
 
 require("dotenv").config();
+const faker = require("faker");
 
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
@@ -110,7 +111,7 @@ app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
 
   knex("users")
-    .insert({ username, email, password })
+    .insert({ username, email, password, user_img: faker.internet.avatar() })
     .then(function(result) {
       console.log(result)
       // ({ success: true, message: "ok" });

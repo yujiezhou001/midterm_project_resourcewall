@@ -1,13 +1,17 @@
+// -----  Variable ------//
+$dark-grey: #656565; 
+
+// -----  Import ------//
 @import "views/index.scss";
+
 @import "modules/nav.scss";
 @import "modules/form.scss";
 @import "modules/card.scss";
 
-/* $dark-grey: #656565; */
-
+// ----- Globale -----//
 body {
   font-family: 'Raleway', sans-serif;
-  background-color: #EEE;
+  background-color: $dark-grey;
 
   h1 {
     color: #244751;
