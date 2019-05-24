@@ -42,8 +42,6 @@ app.use(express.static("public"));
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
-const faker = require('faker')
-
 const resources = [
         {id: 1, url: 'http://lorempixel.com/640/360/', title: 'ubuntu',  description: 'Web dev is so fun!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
         {id: 2, url: 'http://lorempixel.com/640/360/', title: 'new recipe', description: 'Spicy chicken curry!', user_id: faker.random.number({min:1, max:10}), topic_id: faker.random.number({min:1, max:7})},
