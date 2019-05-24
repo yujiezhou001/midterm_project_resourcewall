@@ -182,30 +182,53 @@ app.get("/resources/topic/:name", (req, res) => {
 
 // Search by name
 app.get("/resources/search", (req, res) => {
-
   const templateVars = {}
   const identifier = req.query.myQuery
-  console.log("output:" + identifier)
-  knex
-  .select("*")
-  .from("resources")
-  .where('title', 'like', `%${identifier}%`)
-  .orWhere('description', 'like', `%${identifier}%`)
-  .then(results => {
-    // res.send(results)
-    console.log("results:", results)
-      templateVars.resources = results
-  })
-  .then(
+  Promise.all ([
     knex
     .select("*")
-    .from("topics")
+    .from("resources")
+    .where('title', 'like', `%${identifier}%`)
+    .orWhere('description', 'like', `%${identifier}%`)
     .then(results => {
-      templateVars.topics = results
-      console.log(templateVars)
+      templateVars.resources = results
+    })
+    .then(results => {
+      knex
+      .select("*")
+      .from("topics")
+      .then(topics => {
+       templateVars.topics = topics
+    })
+    .then(results => {
       res.render("index", templateVars)
     })
-  )
+  })
+  ])
+  // const templateVars = {}
+  // const identifier = req.query.myQuery
+  // console.log("output:" + identifier.length)
+  // knex
+  // .select("*")
+  // .from("resources")
+  // .where('title', 'like', `%${identifier}%`)
+  // .orWhere('description', 'like', `%${identifier}%`)
+  // .then(results => {
+  //   // res.send(results)
+  //   // console.log("results:", results)
+  //     templateVars.resources = results
+  //     console.log(templateVars)
+  // })
+  // .then(
+  //   knex
+  //   .select("*")
+  //   .from("topics")
+  //   .then(topics => {
+  //     templateVars.topics = topics
+  //     console.log("askldfhjskdjh", templateVars)
+  //     res.render("index", templateVars)
+  //   })
+  // )
 });
 
 app.get("/resources/:card_id", (req, res) => {
