@@ -149,27 +149,69 @@ app.get("/resources", (req, res) => {
   // res.render("index", templateVars);
 });
 
+
+
+
+// Search by Categories
+app.get("/resources/topic/:name", (req, res) => {
+  const templateVars = {}
+  const topic = req.params.name
+  knex
+    .select("*")
+    .from("topics")
+    .where({
+      name: topic
+    })
+    .then(results => {
+      templateVars.topics = results
+      console.log(results[0].id)
+      return results[0].id
+    })
+    .then (id => {
+      knex
+      .select("*")
+      .from("resources")
+      .where("topic_id", id)
+      .then(results => {
+      templateVars.resources = results
+      console.log(templateVars)
+      res.render("index", templateVars)
+      })
+    })
+})
+
+// Search by name
+app.get("/resources/search", (req, res) => {
+
+  const templateVars = {}
+  const identifier = req.query.myQuery
+  console.log("output:" + identifier)
+  knex
+  .select("*")
+  .from("resources")
+  .where('title', 'like', `%${identifier}%`)
+  .orWhere('description', 'like', `%${identifier}%`)
+  .then(results => {
+    // res.send(results)
+    console.log("results:", results)
+      templateVars.resources = results
+  })
+  .then(
+    knex
+    .select("*")
+    .from("topics")
+    .then(results => {
+      templateVars.topics = results
+      console.log(templateVars)
+      res.render("index", templateVars)
+    })
+  )
+});
+
 app.get("/resources/:card_id", (req, res) => {
   let templateVars = {
   };
   res.render("one_resource", templateVars);
-});
-
-app.get("/resources/topic/:name", (req, res) => {
-  let templateVars = {
-  };
-  res.render("index", templateVars);
-});
-
-app.get("/resources/search", (req, res) => {
-
-  // const resourcesFromSearch = knex.select(*).from('resources').where('description', 'like', `%{req.query.myQuery}%`);
-  // const topics = knex.select(*).from('topics');
-  console.log(req.query)
-  // let templateVars = { resources: resourcesFromSearch,
-                          // topics: topics
-  // };
-  res.render("index", templateVars);
 });
 
 app.get("/user/:id", (req, res) => {
