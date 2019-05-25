@@ -6,10 +6,10 @@ const faker = require("faker");
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const sass = require("node-sass-middleware");
 const app = express();
-
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const morgan = require("morgan");
@@ -39,6 +39,8 @@ app.use(
 );
 app.use(express.static("public"));
 
+// Add cookie parser to use
+app.use(cookieParser());
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
@@ -170,9 +172,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  let templateVars = {};
-
-  res.render("login", templateVars);
+  res.render("login");
 });
 
 app.get("/register", (req, res) => {
@@ -302,8 +302,20 @@ app.get("/resources/:card_id", (req, res) => {
 });
 
 app.get("/user/:id", (req, res) => {
-  let templateVars = {};
+  // const id = req.params.id;
+  const id = req.cookies.user_id;
+  const templateVars = {};
+  console.log(id)
+  knex
+  .select("*")
+  .from("users")
+  .where('id', id)
+  .then(results => {
+    console.log(results[0])
+    templateVars.userinfo = results[0]
+    console.log(templateVars)
   res.render("profile", templateVars);
+  })
 });
 
 app.get("/user/:id/my_resources", (req, res) => {
@@ -320,11 +332,14 @@ app.post("/login", (req, res) => {
   knex
   .select("*")
   .from("users")
-  .where('title', 'like', `%${email}%`)
-  .orWhere('description', 'like', `%${password}%`)
-
-  res.redirect("/index");
-});
+  .where('email', email)
+  .andWhere('password', password)
+  .then(results => {
+    console.log(results[0].id)
+    res.cookie("user_id", (results[0].id))
+    res.redirect("/resources")
+  })
+})
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -377,8 +392,14 @@ app.post("/resources", (req, res) => {
 });
 
 app.post("/user/:id", (req, res) => {
-  res.redirect("/profile");
-});
+
+  })
+    // templateVars.username = results[0].username
+    // templateVars.email = results[0].email
+    // templateVars.id = results[0].id
+    // templateVars.user_img = results[0].user_img
+  // }).then(res.render("profile", templateVars))
+  
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
