@@ -329,7 +329,7 @@ app.get("/resources/:card_id", (req, res) => {
       const reverseObj = (obj) => {
         let newReversObj = [];
         Object.keys(obj)
-          .sort()
+          .sort(function(a, b){return a-b})
           .reverse()
           .forEach(key => {
             console.log(key);
