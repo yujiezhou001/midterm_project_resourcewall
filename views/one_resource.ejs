@@ -4,32 +4,49 @@
   <% include ./partials/_header %>
   <main id="one-resource">
     <div>
-    <section class="content">
-      <h1>ONE RESOURCE</h1>
+      <section class="content">
+        <h1>ONE RESOURCE</h1>
 
-      <img src="http://placekitten.com/635/367" alt="">
-      <h2></h2>
-      <div>
-        <a href="http://placekitten.com/635/367">http://placekitten.com/635/367</a>
-      </div>
-      <div>
-        <p>Decription</p>
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur aspernatur corporis quibusdam officia
-          atque. Expedita exercitationem laboriosam soluta explicabo? Minus asperiores optio deleniti nobis est,
-          voluptatum tempore voluptas? Aliquam, aliquid!</p>
-      </div>
-    </section>
-    <section>
-      <h3>Comments</h3>
-
-      <form class="comment-form">
-        <div class="form-group">
-          <textarea class="form-control" name="comments" rows="3"></textarea>
+        <img src="http://placekitten.com/635/367" alt="">
+        <h2></h2>
+        <div>
+          <a href="http://placekitten.com/635/367">http://placekitten.com/635/367</a>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </section>
-  </div>
+        <div>
+          <p>Decription</p>
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur aspernatur corporis quibusdam officia
+            atque. Expedita exercitationem laboriosam soluta explicabo? Minus asperiores optio deleniti nobis est,
+            voluptatum tempore voluptas? Aliquam, aliquid!</p>
+        </div>
+      </section>
+      <section>
+        <h3>Comments</h3>
+
+        <form class="comment-form" action="/resources/:card_id" method="POST">
+          <div class="form-group">
+            <textarea class="form-control" name="text" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <div class="box-comment">
+
+          <% for (var comment of comments) { %>
+          <article>
+            <div class="user-profile">
+              <%= comment.user_id %>
+              <%= comment.id %>
+            </div>
+            <div class="user-comment">
+              <%= comment.text %>
+            </div>
+
+          </article>
+          <% } %>
+        </div>
+      </section>
+
+    </div>
   </main>
 </body>
 

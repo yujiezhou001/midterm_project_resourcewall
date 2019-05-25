@@ -39,6 +39,27 @@ app.use(
 );
 app.use(express.static("public"));
 
+
+
+
+/* const arrayReverseObj = (obj) => {
+  let newArray = []
+
+  Object.keys(obj)
+    .sort()
+    .reverse()
+    .forEach(key => {
+      console.log(key)
+      newArray.push( {
+      'key':key, 
+      'id':obj[key].id
+      })
+    })
+
+  console.log(newArray)
+  return newArray  
+} */
+
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
@@ -247,29 +268,29 @@ app.get("/resources/topic/:name", (req, res) => {
 
 // Search by name
 app.get("/resources/search", (req, res) => {
-  const templateVars = {}
-  const identifier = req.query.myQuery
-  Promise.all ([
+  const templateVars = {};
+  const identifier = req.query.myQuery;
+  Promise.all([
     knex
-    .select("*")
-    .from("resources")
-    .where('title', 'like', `%${identifier}%`)
-    .orWhere('description', 'like', `%${identifier}%`)
-    .then(results => {
-      templateVars.resources = results
-    })
-    .then(results => {
-      knex
       .select("*")
-      .from("topics")
-      .then(topics => {
-       templateVars.topics = topics
-    })
-    .then(results => {
-      res.render("index", templateVars)
-    })
-  })
-  ])
+      .from("resources")
+      .where("title", "like", `%${identifier}%`)
+      .orWhere("description", "like", `%${identifier}%`)
+      .then(results => {
+        templateVars.resources = results;
+      })
+      .then(results => {
+        knex
+          .select("*")
+          .from("topics")
+          .then(topics => {
+            templateVars.topics = topics;
+          })
+          .then(results => {
+            res.render("index", templateVars);
+          });
+      })
+  ]);
   // const templateVars = {}
   // const identifier = req.query.myQuery
   // console.log("output:" + identifier.length)
@@ -297,8 +318,36 @@ app.get("/resources/search", (req, res) => {
 });
 
 app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {};
-  res.render("one_resource", templateVars);
+  const templateVars = {};
+  
+  knex
+    .select("*")
+    .from("comments")
+    .then(results => {
+     /*  @@@ voir comment refacto */
+     /* reverse function for object */
+      const reverseObj = (obj) => {
+        let newReversObj = [];
+        Object.keys(obj)
+          .sort()
+          .reverse()
+          .forEach(key => {
+            console.log(key);
+            newReversObj.push({
+              id: obj[key].id,
+              text: obj[key].text,
+              user_id: obj[key].user_id,
+              resource_id: obj[key].resource_id,
+              created_at: obj[key].created_at,
+              updated_at: obj[key].updated_at
+            });
+          });
+        return newReversObj;
+      };  
+
+      templateVars.comments = reverseObj(results);
+      res.render("one_resource", templateVars);
+    });
 });
 
 app.get("/user/:id", (req, res) => {
@@ -353,6 +402,19 @@ app.post("/resources", (req, res) => {
 
 app.post("/user/:id", (req, res) => {
   res.redirect("/profile");
+});
+
+app.post("/resources/:card_id", (req, res) => {
+  const { text } = req.body;
+  /* @@@ need to ad the user */
+  knex("comments")
+    .insert({
+      text
+    })
+    .then(function(result) {
+      console.log(result);
+      res.redirect("/resources/:card_id");
+    });
 });
 
 app.listen(PORT, () => {
