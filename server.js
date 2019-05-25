@@ -247,29 +247,29 @@ app.get("/resources/topic/:name", (req, res) => {
 
 // Search by name
 app.get("/resources/search", (req, res) => {
-  const templateVars = {}
-  const identifier = req.query.myQuery
-  Promise.all ([
+  const templateVars = {};
+  const identifier = req.query.myQuery;
+  Promise.all([
     knex
-    .select("*")
-    .from("resources")
-    .where('title', 'like', `%${identifier}%`)
-    .orWhere('description', 'like', `%${identifier}%`)
-    .then(results => {
-      templateVars.resources = results
-    })
-    .then(results => {
-      knex
       .select("*")
-      .from("topics")
-      .then(topics => {
-       templateVars.topics = topics
-    })
-    .then(results => {
-      res.render("index", templateVars)
-    })
-  })
-  ])
+      .from("resources")
+      .where("title", "like", `%${identifier}%`)
+      .orWhere("description", "like", `%${identifier}%`)
+      .then(results => {
+        templateVars.resources = results;
+      })
+      .then(results => {
+        knex
+          .select("*")
+          .from("topics")
+          .then(topics => {
+            templateVars.topics = topics;
+          })
+          .then(results => {
+            res.render("index", templateVars);
+          });
+      })
+  ]);
   // const templateVars = {}
   // const identifier = req.query.myQuery
   // console.log("output:" + identifier.length)
@@ -297,8 +297,36 @@ app.get("/resources/search", (req, res) => {
 });
 
 app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {};
-  res.render("one_resource", templateVars);
+  const templateVars = {};
+  
+  knex
+    .select("*")
+    .from("comments")
+    .then(results => {
+     /*  @@@ voir comment refacto */
+     /* reverse function for object */
+      const reverseObj = (obj) => {
+        let newReversObj = [];
+        Object.keys(obj)
+          .sort(function(a, b){return a-b})
+          .reverse()
+          .forEach(key => {
+            console.log(key);
+            newReversObj.push({
+              id: obj[key].id,
+              text: obj[key].text,
+              user_id: obj[key].user_id,
+              resource_id: obj[key].resource_id,
+              created_at: obj[key].created_at,
+              updated_at: obj[key].updated_at
+            });
+          });
+        return newReversObj;
+      };  
+
+      templateVars.comments = reverseObj(results);
+      res.render("one_resource", templateVars);
+    });
 });
 
 app.get("/user/:id", (req, res) => {
@@ -372,23 +400,6 @@ app.post("/resources", (req, res) => {
       console.log(result);
       res.redirect("/resources");
     });
-
-  /*  const resourceObj =  {
-    url: req.body.theURL,
-    title: req.body.theTitle,
-    description: req.body.theDescription,
-    topic_id: req.body.topic,
-    user_id: 1
-    //using 1 until we figure out how to get the acutal user id, maybe like this: req.params.user_id
-  } */
-  // console.log(req.body)
-  // console.log(resourceObj);
-
-  // knex('resources')
-  // .insert(resourceObj)
-  // .into('resources')
-  // .then(response => {res.redirect("/resources")})
-  // .catch(err => {})
 });
 
 app.post("/user/:id", (req, res) => {
@@ -400,6 +411,19 @@ app.post("/user/:id", (req, res) => {
     // templateVars.user_img = results[0].user_img
   // }).then(res.render("profile", templateVars))
   
+
+app.post("/resources/:card_id", (req, res) => {
+  const { text } = req.body;
+  /* @@@ need to ad the user */
+  knex("comments")
+    .insert({
+      text
+    })
+    .then(function(result) {
+      console.log(result);
+      res.redirect("/resources/:card_id");
+    });
+});
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);

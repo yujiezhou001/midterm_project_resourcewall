@@ -1,8 +1,17 @@
 // -----  Variable ------//
 $dark-grey: #656565; 
+$ligth-color: #eeeeee;
+
+$radius: 15px;
+
+// ------ breakpoint  ----//
+
+$breakpoint-medium: 1280px;
+
 
 // -----  Import ------//
 @import "views/index.scss";
+@import "views/one_resource.scss";
 
 @import "modules/nav.scss";
 @import "modules/form.scss";
