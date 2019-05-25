@@ -349,23 +349,6 @@ app.post("/resources", (req, res) => {
       console.log(result);
       res.redirect("/resources");
     });
-
-  /*  const resourceObj =  {
-    url: req.body.theURL,
-    title: req.body.theTitle,
-    description: req.body.theDescription,
-    topic_id: req.body.topic,
-    user_id: 1
-    //using 1 until we figure out how to get the acutal user id, maybe like this: req.params.user_id
-  } */
-  // console.log(req.body)
-  // console.log(resourceObj);
-
-  // knex('resources')
-  // .insert(resourceObj)
-  // .into('resources')
-  // .then(response => {res.redirect("/resources")})
-  // .catch(err => {})
 });
 
 app.post("/user/:id", (req, res) => {
