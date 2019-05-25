@@ -10,5 +10,19 @@
       <li>Your Email: <%= userinfo.email %></li>
       <li>Your Password: <%= userinfo.password %></li>
     </ul>
+
+    <section>
+      <form class="form-inline" action="/profile" method="POST">
+        <div class="form-group mb-2">
+          <label for="longURL">Change Username:</label>
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
+          <label for="longURL">Enter a URL:</label>
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
+          <label for="longURL">Enter a URL:</label>
+          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </section>
   </body>
 </html>
