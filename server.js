@@ -253,6 +253,14 @@ app.get("/user/:id/my_resources", (req, res) => {
 //------------- POST ----------//
 
 app.post("/login", (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+  knex
+  .select("*")
+  .from("users")
+  .where('title', 'like', `%${email}%`)
+  .orWhere('description', 'like', `%${password}%`)
+
   res.redirect("/index");
 });
 
