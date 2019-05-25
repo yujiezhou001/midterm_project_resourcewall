@@ -296,16 +296,7 @@ app.get("/resources/search", (req, res) => {
   // )
 });
 
-<<<<<<< HEAD
 
-
-
-=======
-app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {};
-  res.render("one_resource", templateVars);
-});
->>>>>>> af172451165d3eafae32cc96aae1316ad67e42fa
 
 app.get("/user/:id", (req, res) => {
   let templateVars = {};
