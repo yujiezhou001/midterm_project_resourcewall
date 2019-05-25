@@ -189,7 +189,10 @@ app.get("/resources", (req, res) => {
   //   res.render("index", templateVars);
   // });
   // const templateVarswithresources = {resources: resources, topics:topics}
-  const templateVars = {};
+
+  if (req.cookies.user_id) {
+    const templateVars = {};
+
   knex
     .select("*")
     .from("resources")
@@ -208,6 +211,9 @@ app.get("/resources", (req, res) => {
     );
 
   console.log(templateVars);
+  }
+
+
   // res.send(resources)
   // const topics = knex.select("*").from("topics")
 
@@ -349,8 +355,9 @@ app.get("/user/:id", (req, res) => {
 
 app.get("/user/:id/my_resources", (req, res) => {
   const templateVars = {};
-  const userId = req.params.id;
-  // const userId = req.cookies('user_id')
+  //userId: req.cookies.user_id
+  //const userId = req.params.id;
+  const userId = req.cookies.user_id
   Promise.all([
     knex
       .select("*")
@@ -423,18 +430,20 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
+  res.clearCookie("user_id")
   res.redirect("/");
 });
 
 app.post("/resources", (req, res) => {
   const { url, title, description, topic_id } = req.body;
-
+  const user_id = req.cookies.user_id;
   knex("resources")
     .insert({
       url,
       title,
       description,
-      topic_id
+      topic_id,
+      user_id
     })
     .then(function(result) {
       console.log(result);
