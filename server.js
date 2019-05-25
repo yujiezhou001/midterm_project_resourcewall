@@ -296,7 +296,6 @@ app.get("/resources/search", (req, res) => {
   // )
 });
 
-
 app.get("/resources/:card_id", (req, res) => {
   const templateVars = {};
 
@@ -304,15 +303,16 @@ app.get("/resources/:card_id", (req, res) => {
     .select("*")
     .from("comments")
     .then(results => {
-     /*  @@@ voir comment refacto */
-     /* reverse function for object */
-      const reverseObj = (obj) => {
+      /*  @@@ voir comment refacto */
+      /* reverse function for object */
+      const reverseObj = obj => {
         let newReversObj = [];
         Object.keys(obj)
-          .sort(function(a, b){return a-b})
+          .sort(function(a, b) {
+            return a - b;
+          })
           .reverse()
           .forEach(key => {
-            console.log(key);
             newReversObj.push({
               id: obj[key].id,
               text: obj[key].text,
@@ -330,22 +330,21 @@ app.get("/resources/:card_id", (req, res) => {
     });
 });
 
-
 app.get("/user/:id", (req, res) => {
   // const id = req.params.id;
   const id = req.cookies.user_id;
   const templateVars = {};
-  console.log(id)
+  console.log(id);
   knex
-  .select("*")
-  .from("users")
-  .where('id', id)
-  .then(results => {
-    console.log(results[0])
-    templateVars.userinfo = results[0]
-    console.log(templateVars)
-  res.render("profile", templateVars);
-  })
+    .select("*")
+    .from("users")
+    .where("id", id)
+    .then(results => {
+      console.log(results[0]);
+      templateVars.userinfo = results[0];
+      console.log(templateVars);
+      res.render("profile", templateVars);
+    });
 });
 
 app.get("/user/:id/my_resources", (req, res) => {
@@ -353,61 +352,62 @@ app.get("/user/:id/my_resources", (req, res) => {
   const userId = req.params.id;
   // const userId = req.cookies('user_id')
   Promise.all([
-  knex
-    .select("*")
-    .from("resources")
-    .where({
-      user_id: userId
-    })
-    .then(results => {
-      templateVars.resources = results;
-    })
-    .then( () => {
-      knex
-        .select("*")
-        .from("topics")
-        .then( (results1) => {
-          templateVars.topics = results1;
-          knex.select('resource_id').from('pins').where('user_id',userId).then((result2)=>{
+    knex
+      .select("*")
+      .from("resources")
+      .where({
+        user_id: userId
+      })
+      .then(results => {
+        templateVars.resources = results;
+      })
+      .then(() => {
+        knex
+          .select("*")
+          .from("topics")
+          .then(results1 => {
+            templateVars.topics = results1;
             knex
-              .select("*")
-              .from("resources")
-              .whereIn('id', result2.map(resource=> resource.resource_id))
-              .then( (results3)=>{
-                results3.forEach(item=>templateVars.resources.push(item))
-                console.log(templateVars);
-                res.render("my_resources", templateVars);
-              })
-          })
-        })
-    })
-  ])
-
-})
-
+              .select("resource_id")
+              .from("pins")
+              .where("user_id", userId)
+              .then(result2 => {
+                knex
+                  .select("*")
+                  .from("resources")
+                  .whereIn("id", result2.map(resource => resource.resource_id))
+                  .then(results3 => {
+                    results3.forEach(item => templateVars.resources.push(item));
+                    console.log(templateVars);
+                    res.render("my_resources", templateVars);
+                  });
+              });
+          });
+      })
+  ]);
+});
 
 app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {
-  };
-  res.render("one_resource", templateVars);
+  let templateVars = {};
+  res.redirect("/resources/:card_id");
 });
 
 //------------- POST ----------//
 
 app.post("/login", (req, res) => {
-  const email = req.body.email
-  const password = req.body.password
+  const email = req.body.email;
+  const password = req.body.password;
   knex
-  .select("*")
-  .from("users")
-  .where('email', email)
-  .andWhere('password', password)
-  .then(results => {
-    console.log(results[0].id)
-    res.cookie("user_id", (results[0].id))
-    res.redirect("/resources")
-  })
-})
+    .select("*")
+    .from("users")
+    .where("email", email)
+    .andWhere("password", password)
+    .then(results => {
+      console.log(results[0].id);
+      res.cookie("user_id", results[0].id);
+      res.redirect("/resources");
+    });
+});
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -443,40 +443,35 @@ app.post("/resources", (req, res) => {
 });
 
 app.post("/pins", (req, res) => {
-// const { resource_id, user_id } = req.body
-const obj = {
-             user_id: 2,
-             resource_id: req.body.resourceId
-            }
+  // const { resource_id, user_id } = req.body
+  const obj = {
+    user_id: 2,
+    resource_id: req.body.resourceId
+  };
 
-console.log(obj)
+  console.log(obj);
 
-knex("pins")
-  .insert(obj)
-  .then(result => {
-    console.log(result);
-  }
-    )
-  .then(result => {
-    res.redirect("/resources");
-  }
-    )
-})
+  knex("pins")
+    .insert(obj)
+    .then(result => {
+      console.log(result);
+    })
+    .then(result => {
+      res.redirect("/resources");
+    });
+});
 
-
-
-app.post("/user/:id", (req, res) => {
-
-  })
-    // templateVars.username = results[0].username
-    // templateVars.email = results[0].email
-    // templateVars.id = results[0].id
-    // templateVars.user_img = results[0].user_img
-  // }).then(res.render("profile", templateVars))
-
+app.post("/user/:id", (req, res) => {});
+// templateVars.username = results[0].username
+// templateVars.email = results[0].email
+// templateVars.id = results[0].id
+// templateVars.user_img = results[0].user_img
+// }).then(res.render("profile", templateVars))
 
 app.post("/resources/:card_id", (req, res) => {
   const { text } = req.body;
+  //console.log(text)
+
   /* @@@ need to ad the user */
   knex("comments")
     .insert({
@@ -488,8 +483,21 @@ app.post("/resources/:card_id", (req, res) => {
     });
 });
 
+app.get("/rating/:rating_value", (req, res) => {
+    const { rating_value } = req.params;
+  /* @@@ need to ad the user */
+  knex("ratings")
+    .insert({
+      rating_value
+    })
+    .then(function(result) {
+      console.log(result);
+      res.redirect("/resources/:card_id");
+    });
+
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
 
-// }
