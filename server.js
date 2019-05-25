@@ -155,7 +155,7 @@ app.get("/", (req, res) => {
   // if (!user_session){
   //   res.redirect("/login")
   // } else{
-  res.redirect("/resources");
+  // res.redirect("/resources");
   // res.render("/resources", templateVars);
   // }
 
