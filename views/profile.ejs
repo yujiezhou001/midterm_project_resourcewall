@@ -2,11 +2,13 @@
 
   <body>
      <% include ./partials/_header %>
-    <h1>Profile</h1>
+    <h1>Your Profile</h1>
+    <h2>Avatar: </h2>
+    <img src="<%= userinfo.user_img %>"/>
     <ul>
-    <% for (var user of users) {%>
-      <li><%= user.name %></li>
-    <% } %>
+      <li>Your Username: <%= userinfo.username %></li>
+      <li>Your Email: <%= userinfo.email %></li>
+      <li>Your Password: <%= userinfo.password %></li>
     </ul>
   </body>
 </html>

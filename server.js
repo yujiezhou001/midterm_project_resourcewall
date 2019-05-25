@@ -6,10 +6,10 @@ const faker = require("faker");
 const PORT = process.env.PORT || 8080;
 const ENV = process.env.ENV || "development";
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const sass = require("node-sass-middleware");
 const app = express();
-
 const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const morgan = require("morgan");
@@ -39,6 +39,8 @@ app.use(
 );
 app.use(express.static("public"));
 
+// Add cookie parser to use
+app.use(cookieParser());
 // Mount all resource routes
 // app.use("/api/users", usersRoutes(knex));
 
@@ -170,9 +172,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  let templateVars = {};
-
-  res.render("login", templateVars);
+  res.render("login");
 });
 
 app.get("/register", (req, res) => {
@@ -247,29 +247,29 @@ app.get("/resources/topic/:name", (req, res) => {
 
 // Search by name
 app.get("/resources/search", (req, res) => {
-  const templateVars = {}
-  const identifier = req.query.myQuery
-  Promise.all ([
+  const templateVars = {};
+  const identifier = req.query.myQuery;
+  Promise.all([
     knex
-    .select("*")
-    .from("resources")
-    .where('title', 'like', `%${identifier}%`)
-    .orWhere('description', 'like', `%${identifier}%`)
-    .then(results => {
-      templateVars.resources = results
-    })
-    .then(results => {
-      knex
       .select("*")
-      .from("topics")
-      .then(topics => {
-       templateVars.topics = topics
-    })
-    .then(results => {
-      res.render("index", templateVars)
-    })
-  })
-  ])
+      .from("resources")
+      .where("title", "like", `%${identifier}%`)
+      .orWhere("description", "like", `%${identifier}%`)
+      .then(results => {
+        templateVars.resources = results;
+      })
+      .then(results => {
+        knex
+          .select("*")
+          .from("topics")
+          .then(topics => {
+            templateVars.topics = topics;
+          })
+          .then(results => {
+            res.render("index", templateVars);
+          });
+      })
+  ]);
   // const templateVars = {}
   // const identifier = req.query.myQuery
   // console.log("output:" + identifier.length)
@@ -297,10 +297,55 @@ app.get("/resources/search", (req, res) => {
 });
 
 
+app.get("/resources/:card_id", (req, res) => {
+  const templateVars = {};
+
+  knex
+    .select("*")
+    .from("comments")
+    .then(results => {
+     /*  @@@ voir comment refacto */
+     /* reverse function for object */
+      const reverseObj = (obj) => {
+        let newReversObj = [];
+        Object.keys(obj)
+          .sort(function(a, b){return a-b})
+          .reverse()
+          .forEach(key => {
+            console.log(key);
+            newReversObj.push({
+              id: obj[key].id,
+              text: obj[key].text,
+              user_id: obj[key].user_id,
+              resource_id: obj[key].resource_id,
+              created_at: obj[key].created_at,
+              updated_at: obj[key].updated_at
+            });
+          });
+        return newReversObj;
+      };
+
+      templateVars.comments = reverseObj(results);
+      res.render("one_resource", templateVars);
+    });
+});
+
 
 app.get("/user/:id", (req, res) => {
-  let templateVars = {};
+  // const id = req.params.id;
+  const id = req.cookies.user_id;
+  const templateVars = {};
+  console.log(id)
+  knex
+  .select("*")
+  .from("users")
+  .where('id', id)
+  .then(results => {
+    console.log(results[0])
+    templateVars.userinfo = results[0]
+    console.log(templateVars)
   res.render("profile", templateVars);
+  })
 });
 
 app.get("/user/:id/my_resources", (req, res) => {
@@ -350,8 +395,19 @@ app.get("/resources/:card_id", (req, res) => {
 //------------- POST ----------//
 
 app.post("/login", (req, res) => {
-  res.redirect("/index");
-});
+  const email = req.body.email
+  const password = req.body.password
+  knex
+  .select("*")
+  .from("users")
+  .where('email', email)
+  .andWhere('password', password)
+  .then(results => {
+    console.log(results[0].id)
+    res.cookie("user_id", (results[0].id))
+    res.redirect("/resources")
+  })
+})
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -384,23 +440,6 @@ app.post("/resources", (req, res) => {
       console.log(result);
       res.redirect("/resources");
     });
-
-  /*  const resourceObj =  {
-    url: req.body.theURL,
-    title: req.body.theTitle,
-    description: req.body.theDescription,
-    topic_id: req.body.topic,
-    user_id: 1
-    //using 1 until we figure out how to get the acutal user id, maybe like this: req.params.user_id
-  } */
-  // console.log(req.body)
-  // console.log(resourceObj);
-
-  // knex('resources')
-  // .insert(resourceObj)
-  // .into('resources')
-  // .then(response => {res.redirect("/resources")})
-  // .catch(err => {})
 });
 
 app.post("/pins", (req, res) => {
@@ -427,7 +466,26 @@ knex("pins")
 
 
 app.post("/user/:id", (req, res) => {
-  res.redirect("/profile");
+
+  })
+    // templateVars.username = results[0].username
+    // templateVars.email = results[0].email
+    // templateVars.id = results[0].id
+    // templateVars.user_img = results[0].user_img
+  // }).then(res.render("profile", templateVars))
+
+
+app.post("/resources/:card_id", (req, res) => {
+  const { text } = req.body;
+  /* @@@ need to ad the user */
+  knex("comments")
+    .insert({
+      text
+    })
+    .then(function(result) {
+      console.log(result);
+      res.redirect("/resources/:card_id");
+    });
 });
 
 app.listen(PORT, () => {
