@@ -9,16 +9,20 @@
 
 
     <!-- our resources cards section -->
+
+    <%const matchTopic = topic_id_in_resources => Object.values(topics).find(topicsObjFromDb => topicsObjFromDb.id === topic_id_in_resources);%>
+
+
+
     <div class="card-container">
-      <% for (let i = 0; i < 8; i++) {%>
+      <% for (var resource of resources) { %>
       <section>
         <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="https://placekitten.com/640/360" alt="Card image cap">
+          <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title"><%= resource.title %></h5>
+            <p class="card-text"><%= resource.description %></p>
+            <a href="#" class="btn btn-primary">Check it out!</a>
           </div>
         </div>
       </section>

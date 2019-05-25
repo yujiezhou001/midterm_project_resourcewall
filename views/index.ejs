@@ -90,13 +90,13 @@
 
     <!-- Topics buttons -->
     <section>
-      <button type="button" class="btn btn-outline-dark">Music</button>
-      <button type="button" class="btn btn-outline-dark">Web Dev</button>
-      <button type="button" class="btn btn-outline-dark">Cooking</button>
-      <button type="button" class="btn btn-outline-dark">Languages</button>
-      <button type="button" class="btn btn-outline-dark">Arts & Crafts</button>
-      <button type="button" class="btn btn-outline-dark">Magic Tricks</button>
-      <button type="button" class="btn btn-outline-dark">Life Hacks</button>
+      <a href="/resources/topic/music"><button type="button" class="btn btn-outline-dark">Music</button></a>
+      <a href="/resources/topic/web_dev"><button type="button" class="btn btn-outline-dark">Web Dev</button> </a>
+      <a href="/resources/topic/cooking"><button type="button" class="btn btn-outline-dark">Cooking</button> </a>
+      <a href="/resources/topic/languages"><button type="button" class="btn btn-outline-dark">Languages</button> </a>
+      <a href="/resources/topic/arts_and_crafts"><button type="button" class="btn btn-outline-dark">Arts & Crafts</button></a>
+      <a href="/resources/topic/magic_tricks"><button type="button" class="btn btn-outline-dark">Magic Tricks</button></a>
+      <a href="/resources/topic/life_hacks"><button type="button" class="btn btn-outline-dark">Life Hacks</button></a>
     </section>
 
     <!-- *********************** actual proper code but breaks page for now because no DB.****************** -->
@@ -110,6 +110,7 @@
       <section>
         <div class="card" style="width: 18rem;">
           <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
+             <form method="POST" action="/pins"><button type="submit" name="resourceId" value="<%= resource.id %>" class="btn btn-primary">Pin it!<i class="fas fa-thumbtack icon-logo"></i></button></form>
           <div class="card-body">
             <h5 class="card-title"><%= resource.title %></h5>
             <p class="card-text"><%= resource.description %></p>

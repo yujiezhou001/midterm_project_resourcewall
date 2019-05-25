@@ -155,7 +155,7 @@ app.get("/", (req, res) => {
   // if (!user_session){
   //   res.redirect("/login")
   // } else{
-  // res.redirect("/resources");
+  res.redirect("/resources");
   // res.render("/resources", templateVars);
   // }
 
@@ -304,10 +304,41 @@ app.get("/user/:id", (req, res) => {
 });
 
 app.get("/user/:id/my_resources", (req, res) => {
-  let templateVars = {};
+  const templateVars = {};
+  const userId = req.params.id;
+  // const userId = req.cookies('user_id')
+  Promise.all([
+  knex
+    .select("*")
+    .from("resources")
+    .where({
+      user_id: userId
+    })
+    .then(results => {
+      templateVars.resources = results;
+    })
+    .then( () => {
+      knex
+        .select("*")
+        .from("topics")
+        .then( (results1) => {
+          templateVars.topics = results1;
+          knex.select('resource_id').from('pins').where('user_id',userId).then((result2)=>{
+            knex
+              .select("*")
+              .from("resources")
+              .whereIn('id', result2.map(resource=> resource.resource_id))
+              .then( (results3)=>{
+                results3.forEach(item=>templateVars.resources.push(item))
+                console.log(templateVars);
+                res.render("my_resources", templateVars);
+              })
+          })
+        })
+    })
+  ])
 
-  res.render("my_resources", templateVars);
-});
+})
 
 
 app.get("/resources/:card_id", (req, res) => {
@@ -371,6 +402,29 @@ app.post("/resources", (req, res) => {
   // .then(response => {res.redirect("/resources")})
   // .catch(err => {})
 });
+
+app.post("/pins", (req, res) => {
+// const { resource_id, user_id } = req.body
+const obj = {
+             user_id: 2,
+             resource_id: req.body.resourceId
+            }
+
+console.log(obj)
+
+knex("pins")
+  .insert(obj)
+  .then(result => {
+    console.log(result);
+  }
+    )
+  .then(result => {
+    res.redirect("/resources");
+  }
+    )
+})
+
+
 
 app.post("/user/:id", (req, res) => {
   res.redirect("/profile");
