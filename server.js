@@ -420,16 +420,18 @@ app.get("/user/:id/my_resources", (req, res) => {
   ]);
 });
 
-app.get("/rating/:rating_value", (req, res) => {
-  const { rating_value } = req.params;
-  /* @@@ need to ad the user */
+app.get("/rating/:rating_value/:resource_id", (req, res) => {
+  const { rating_value, resource_id } = req.params;
+  /* @@@ need to ad the user - done*/
   knex("ratings")
     .insert({
-      rating_value
+      user_id: req.cookies.user_id,
+      rating_value,
+      resource_id
     })
     .then(function(result) {
-      console.log(result);
-      res.redirect("/resources/:card_id");
+      // console.log(result);
+      res.redirect("/resources/"+resource_id);
     });
 });
 
