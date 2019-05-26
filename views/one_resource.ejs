@@ -9,14 +9,18 @@
 
         <img src="<%=  topic[0].default_img %>" alt="">
         <h2></h2>
-        <section class="ratings">
-          <a href="/rating/1/<%= resource[0].id %>"><i class="far fa-star"></i></a>
-          <a href="/rating/2/<%= resource[0].id %>"><i class="far fa-star"></i></a>
-          <a href="/rating/3/<%= resource[0].id %>"><i class="far fa-star"></i></a>
-          <a href="/rating/4/<%= resource[0].id %>"><i class="far fa-star"></i></a>
-          <a href="/rating/5/<%= resource[0].id %>"><i class="far fa-star"></i></a>
-        </section>
-
+        <div>
+          <section class="ratings">
+            <a href="/rating/1/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+            <a href="/rating/2/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+            <a href="/rating/3/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+            <a href="/rating/4/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+            <a href="/rating/5/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+          </section>
+          <div>
+            <i class="fas fa-star"></i> <%= avrRating[0].rating_value %>
+          </div>
+        </div>
         <div>
           <a href="<%= resource[0].url %>"><%= resource[0].url %></a>
         </div>

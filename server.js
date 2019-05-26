@@ -310,12 +310,20 @@ app.get("/resources/:card_id", (req, res) => {
   //console.log(typeof cardId);
   /*-----   For the comment part -----*/
   knex
-  .select("")
-  .from("users")
-  .join("comments", { "users.id": "comments.user_id" })
-  .orderBy('created_at')
-  .then(results => {
+    .select("*")
+    .from("users")
+    .join("comments", { "users.id": "comments.user_id" })
+    .orderBy("created_at")
+    .then(results => {
       templateVars.commentsuser = results.reverse();
+    })
+    .then(results => {
+      knex("ratings")
+        .select(knex.raw("ROUND(AVG(rating_value),1) as rating_value"))
+        .where({ resource_id: cardId })
+        .then(results => {
+          templateVars.avrRating = results;
+        });
     })
     .then(results => {
       knex
@@ -331,7 +339,7 @@ app.get("/resources/:card_id", (req, res) => {
             .where({ id: topicId })
             .then(results => {
               templateVars.topic = results;
-              // res.send(templateVars);
+              //res.send(templateVars);
               res.render("one_resource", templateVars);
             });
         });
@@ -407,7 +415,7 @@ app.get("/rating/:rating_value/:resource_id", (req, res) => {
     })
     .then(function(result) {
       // console.log(result);
-      res.redirect("/resources/"+resource_id);
+      res.redirect("/resources/" + resource_id);
     });
 });
 
