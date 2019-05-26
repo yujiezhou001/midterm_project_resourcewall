@@ -196,6 +196,7 @@ app.get("/resources", (req, res) => {
     knex
       .select("*")
       .from("resources")
+      .orderBy("created_at")
       .then(results => {
         // res.send(results)
         templateVars.resources = results;
@@ -312,6 +313,7 @@ app.get("/resources/:card_id", (req, res) => {
   .select("")
   .from("users")
   .join("comments", { "users.id": "comments.user_id" })
+  .orderBy('created_at')
   .then(results => {
       /*  @@@ voir comment refacto */
       /* reverse function for object */
@@ -335,7 +337,7 @@ app.get("/resources/:card_id", (req, res) => {
           });
         return newReversObj;
       };
-      
+
       templateVars.commentsuser = reverseObj(results);
     })
     .then(results => {
@@ -352,12 +354,12 @@ app.get("/resources/:card_id", (req, res) => {
             .where({ id: topicId })
             .then(results => {
               templateVars.topic = results;
-              //res.send(templateVars);
+              // res.send(templateVars);
               res.render("one_resource", templateVars);
             });
         });
     });
-  
+
 });
 
 app.get("/user/:id", (req, res) => {
@@ -550,7 +552,7 @@ app.post("/resources/:card_id", (req, res) => {
   const { text } = req.body;
   const { card_id } = req.params;
   const { user_id } = req.cookies;
-  
+
   //console.log(text)
 
   /* @@@ need to ad the user */
