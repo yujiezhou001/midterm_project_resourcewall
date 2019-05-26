@@ -10,19 +10,22 @@
       <li>Your Email: <%= userinfo.email %></li>
       <li>Your Password: <%= userinfo.password %></li>
     </ul>
-
+    
     <section>
-      <form class="form-inline" action="/profile" method="POST">
+      <form class="form-group" action="/user/id" method="POST">
         <div class="form-group mb-2">
-          <label for="longURL">Change Username:</label>
-          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <label for="longURL">Enter a URL:</label>
-          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <label for="longURL">Enter a URL:</label>
-          <input class="form-control" type="text" name="longURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <label for="longURL">Update Username:</label>
+          <input class="form-control" type="text" name="username" placeholder="Enter your username" style="width: 300px; margin: 1em">
+          <label for="longURL">Update Email:</label>
+          <input class="form-control" type="text" name="email" placeholder="Enter your email" style="width: 300px; margin: 1em">
+          <label for="longURL">Update Password:</label>
+          <input class="form-control" type="text" name="password" placeholder="Enter your password" style="width: 300px; margin: 1em">
+          <label for="longURL">Update Avatar:</label>
+          <input class="form-control" type="text" name="avatar" placeholder="Enter your avatar url" style="width: 300px; margin: 1em">
+          <button type="submit" class="btn btn-primary">Update</button>
         </div>
       </form>
+
     </section>
   </body>
 </html>

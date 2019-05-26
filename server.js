@@ -157,7 +157,7 @@ app.get("/", (req, res) => {
   // if (!user_session){
   //   res.redirect("/login")
   // } else{
-  res.redirect("/resources");
+  res.redirect("/login");
   // res.render("/resources", templateVars);
   // }
 
@@ -335,6 +335,7 @@ app.get("/user/:id", (req, res) => {
   // const id = req.params.id;
   const id = req.cookies.user_id;
   const templateVars = {};
+  templateVars.id = req.cookies.user_id;
   console.log(id)
   knex
   .select("*")
@@ -350,7 +351,7 @@ app.get("/user/:id", (req, res) => {
 
 app.get("/user/:id/my_resources", (req, res) => {
   const templateVars = {};
-  const userId = req.params.id;
+  const userId = req.cookies.user_id;
   // const userId = req.cookies('user_id')
   Promise.all([
   knex
@@ -423,6 +424,7 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
+  res.clearCookie("user_id");
   res.redirect("/");
 });
 
@@ -466,13 +468,35 @@ knex("pins")
 
 
 app.post("/user/:id", (req, res) => {
+  const user_id = req.cookies.user_id;
+  let myObject = {};
+    myObject.username = req.body.username;
+    myObject.email = req.body.email;
+    myObject.password = req.body.password;
+    myObject.user_img = req.body.avatar;
+  
+    if(myObject.username.length === 0){
+      delete myObject.username
+    }
+    if (myObject.email.length === 0){
+      delete myObject.email
+    }
+    if (myObject.password.length === 0){
+      delete myObject.password
+    }
+    if (myObject.user_img.length === 0){
+      delete myObject.user_img
+    }
+    knex('users')
+    .where ('id', user_id)
+    .update(myObject)
+    .then (results => {
+    res.redirect("/user/:id")
+  
+    })
+  
+    })
 
-  })
-    // templateVars.username = results[0].username
-    // templateVars.email = results[0].email
-    // templateVars.id = results[0].id
-    // templateVars.user_img = results[0].user_img
-  // }).then(res.render("profile", templateVars))
 
 
 app.post("/resources/:card_id", (req, res) => {
