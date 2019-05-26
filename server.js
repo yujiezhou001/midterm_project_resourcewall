@@ -315,30 +315,7 @@ app.get("/resources/:card_id", (req, res) => {
   .join("comments", { "users.id": "comments.user_id" })
   .orderBy('created_at')
   .then(results => {
-      /*  @@@ voir comment refacto */
-      /* reverse function for object */
-      const reverseObj = obj => {
-        let newReversObj = [];
-        Object.keys(obj)
-          .sort(function(a, b) {
-            return a - b;
-          })
-          .reverse()
-          .forEach(key => {
-            newReversObj.push({
-              id: obj[key].id,
-              username:  obj[key].username,
-              text: obj[key].text,
-              user_id: obj[key].user_id,
-              resource_id: obj[key].resource_id,
-              created_at: obj[key].created_at,
-              updated_at: obj[key].updated_at
-            });
-          });
-        return newReversObj;
-      };
-
-      templateVars.commentsuser = reverseObj(results);
+      templateVars.commentsuser = results.reverse();
     })
     .then(results => {
       knex
@@ -359,7 +336,6 @@ app.get("/resources/:card_id", (req, res) => {
             });
         });
     });
-
 });
 
 app.get("/user/:id", (req, res) => {
