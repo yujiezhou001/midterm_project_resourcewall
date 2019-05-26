@@ -342,8 +342,8 @@ app.get("/resources/:card_id", (req, res) => {
             .where({ id: topicId })
             .then(results => {
               templateVars.topic = results;
-              res.send(templateVars);
-              //res.render("one_resource", templateVars);
+              //res.send(templateVars);
+              res.render("one_resource", templateVars);
             });
         });
     });
