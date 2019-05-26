@@ -157,7 +157,7 @@ app.get("/", (req, res) => {
   // if (!user_session){
   //   res.redirect("/login")
   // } else{
-  res.redirect("/resources");
+  res.redirect("/login");
   // res.render("/resources", templateVars);
   // }
 
@@ -200,17 +200,19 @@ app.get("/resources", (req, res) => {
       // res.send(results)
       templateVars.resources = results;
     })
-    .then(
-      knex
+    .then(results => {
+      return knex
         .select("*")
         .from("topics")
-        .then(results => {
-          templateVars.topics = results;
-          res.render("index", templateVars);
-        })
-    );
+      })
+    .then(results => {
+        templateVars.topics = results;
+      })
+    .finally(results => {
+      res.render("index", templateVars);
+      console.log(templateVars);
+    });
 
-  console.log(templateVars);
   }
 
 
@@ -452,13 +454,55 @@ app.post("/resources", (req, res) => {
 });
 
 app.post("/pins", (req, res) => {
-  // const { resource_id, user_id } = req.body
-  const obj = {
-    user_id: 2,
-    resource_id: req.body.resourceId
-  };
+// const { resource_id, user_id } = req.body
+const obj = {
+             user_id: req.cookies.user_id,
+             resource_id: req.body.resourceId
+            }
 
-  console.log(obj);
+console.log(obj)
+
+knex("pins")
+  .insert(obj)
+  .then(result => {
+    console.log(result);
+  }
+    )
+  .then(result => {
+    res.redirect("/resources");
+  }
+    )
+})
+
+
+
+app.post("/user/:id", (req, res) => {
+const user_id = req.cookies.user_id;
+let myObject = {};
+  myObject.username = req.body.username;
+  myObject.email = req.body.email;
+  myObject.password = req.body.password;
+  myObject.user_img = req.body.avatar;
+
+  if(myObject.username.length === 0){
+    delete myObject.username
+  }
+  if (myObject.email.length === 0){
+    delete myObject.email
+  }
+  if (myObject.password.length === 0){
+    delete myObject.password
+  }
+  if (myObject.user_img.length === 0){
+    delete myObject.user_img
+  }
+  knex('users')
+  .where ( { id: user_id})
+  .update(myObject)
+  .then (results => {
+  res.redirect("/user/:id")
+
+  })
 
   knex("pins")
     .insert(obj)
