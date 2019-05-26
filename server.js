@@ -193,28 +193,24 @@ app.get("/resources", (req, res) => {
   if (req.cookies.user_id) {
     const templateVars = {};
 
-  knex
-    .select("*")
-    .from("resources")
-    .then(results => {
-      // res.send(results)
-      templateVars.resources = results;
-    })
-    .then(results => {
-      return knex
-        .select("*")
-        .from("topics")
+    knex
+      .select("*")
+      .from("resources")
+      .then(results => {
+        // res.send(results)
+        templateVars.resources = results;
       })
-    .then(results => {
+      .then(results => {
+        return knex.select("*").from("topics");
+      })
+      .then(results => {
         templateVars.topics = results;
       })
-    .finally(results => {
-      res.render("index", templateVars);
-      console.log(templateVars);
-    });
-
+      .finally(results => {
+        res.render("index", templateVars);
+        console.log(templateVars);
+      });
   }
-
 
   // res.send(resources)
   // const topics = knex.select("*").from("topics")
@@ -306,7 +302,10 @@ app.get("/resources/search", (req, res) => {
 
 app.get("/resources/:card_id", (req, res) => {
   const templateVars = {};
-
+  const { card_id } = req.params;
+  const cardId = Number(card_id.replace(/:/, ""));
+  //console.log(typeof cardId);
+  /*-----   For the comment part -----*/
   knex
     .select("*")
     .from("comments")
@@ -334,7 +333,29 @@ app.get("/resources/:card_id", (req, res) => {
       };
 
       templateVars.comments = reverseObj(results);
-      res.render("one_resource", templateVars);
+      //res.send(templateVars)
+      //res.render("one_resource", templateVars);
+    })
+    .then(results => {
+      knex
+        .select("*")
+        .from("resources")
+        .where({ id: cardId })
+        .then(results => {
+          templateVars.resource = results;
+          //res.send(templateVars);
+          const topicId = templateVars.resource[0].topic_id;
+          console.log(typeof topicId);
+          knex
+            .select("*")
+            .from("topics")
+            .where({ id: topicId })
+            .then(results => {
+              templateVars.topic = results;
+              //res.send(templateVars);
+              res.render("one_resource", templateVars);
+            });
+        });
     });
 });
 
@@ -359,7 +380,7 @@ app.get("/user/:id/my_resources", (req, res) => {
   const templateVars = {};
   //userId: req.cookies.user_id
   //const userId = req.params.id;
-  const userId = req.cookies.user_id
+  const userId = req.cookies.user_id;
   Promise.all([
     knex
       .select("*")
@@ -396,9 +417,17 @@ app.get("/user/:id/my_resources", (req, res) => {
   ]);
 });
 
-app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {};
-  res.redirect("/resources/:card_id");
+app.get("/rating/:rating_value", (req, res) => {
+  const { rating_value } = req.params;
+  /* @@@ need to ad the user */
+  knex("ratings")
+    .insert({
+      rating_value
+    })
+    .then(function(result) {
+      console.log(result);
+      res.redirect("/resources/:card_id");
+    });
 });
 
 //------------- POST ----------//
@@ -432,7 +461,7 @@ app.post("/register", (req, res) => {
 });
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id")
+  res.clearCookie("user_id");
   res.redirect("/");
 });
 
@@ -454,55 +483,50 @@ app.post("/resources", (req, res) => {
 });
 
 app.post("/pins", (req, res) => {
-// const { resource_id, user_id } = req.body
-const obj = {
-             user_id: req.cookies.user_id,
-             resource_id: req.body.resourceId
-            }
+  // const { resource_id, user_id } = req.body
+  const obj = {
+    user_id: req.cookies.user_id,
+    resource_id: req.body.resourceId
+  };
 
-console.log(obj)
+  console.log(obj);
 
-knex("pins")
-  .insert(obj)
-  .then(result => {
-    console.log(result);
-  }
-    )
-  .then(result => {
-    res.redirect("/resources");
-  }
-    )
-})
-
-
+  knex("pins")
+    .insert(obj)
+    .then(result => {
+      console.log(result);
+    })
+    .then(result => {
+      res.redirect("/resources");
+    });
+});
 
 app.post("/user/:id", (req, res) => {
-const user_id = req.cookies.user_id;
-let myObject = {};
+  const user_id = req.cookies.user_id;
+  let myObject = {};
   myObject.username = req.body.username;
   myObject.email = req.body.email;
   myObject.password = req.body.password;
   myObject.user_img = req.body.avatar;
 
-  if(myObject.username.length === 0){
-    delete myObject.username
+  if (myObject.username.length === 0) {
+    delete myObject.username;
   }
-  if (myObject.email.length === 0){
-    delete myObject.email
+  if (myObject.email.length === 0) {
+    delete myObject.email;
   }
-  if (myObject.password.length === 0){
-    delete myObject.password
+  if (myObject.password.length === 0) {
+    delete myObject.password;
   }
-  if (myObject.user_img.length === 0){
-    delete myObject.user_img
+  if (myObject.user_img.length === 0) {
+    delete myObject.user_img;
   }
-  knex('users')
-  .where ( { id: user_id})
-  .update(myObject)
-  .then (results => {
-  res.redirect("/user/:id")
-
-  })
+  knex("users")
+    .where({ id: user_id })
+    .update(myObject)
+    .then(results => {
+      res.redirect("/user/:id");
+    });
 
   knex("pins")
     .insert(obj)
@@ -536,21 +560,6 @@ app.post("/resources/:card_id", (req, res) => {
     });
 });
 
-app.get("/rating/:rating_value", (req, res) => {
-    const { rating_value } = req.params;
-  /* @@@ need to ad the user */
-  knex("ratings")
-    .insert({
-      rating_value
-    })
-    .then(function(result) {
-      console.log(result);
-      res.redirect("/resources/:card_id");
-    });
-
-});
-
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-

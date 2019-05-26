@@ -5,9 +5,9 @@
   <main id="one-resource">
     <div>
       <section class="content">
-        <h1>ONE RESOURCE</h1>
+        <h1><%= resource[0].title %></h1>
 
-        <img src="http://placekitten.com/635/367" alt="">
+        <img src="<%=  topic[0].default_img %>" alt="">
         <h2></h2>
         <section class="ratings">
           <a href="/rating/1"><i class="far fa-star"></i></a>
@@ -18,13 +18,10 @@
         </section>
 
         <div>
-          <a href="http://placekitten.com/635/367">http://placekitten.com/635/367</a>
+          <a href="<%= resource[0].url %>"><%= resource[0].url %></a>
         </div>
         <div>
-          <p>Decription</p>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur aspernatur corporis quibusdam officia
-            atque. Expedita exercitationem laboriosam soluta explicabo? Minus asperiores optio deleniti nobis est,
-            voluptatum tempore voluptas? Aliquam, aliquid!</p>
+          <p><%= resource[0].description %></p>
         </div>
       </section>
       <section>
