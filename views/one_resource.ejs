@@ -27,7 +27,7 @@
       <section>
         <h3>Comments</h3>
 
-        <form class="comment-form" action="/resources/:card_id" method="POST">
+        <form class="comment-form" action="/resources/<%= card_id %>" method="POST">
           <div class="form-group">
             <textarea class="form-control" name="text" rows="3"></textarea>
           </div>
@@ -40,7 +40,9 @@
           <article>
             <div class="user-profile">
               <%= comment.user_id %>
-              <%= comment.username %>
+              <% if (comment.username){
+                  comment.username
+              } %>
             </div>
             <div class="user-comment">
               <%= comment.text %>

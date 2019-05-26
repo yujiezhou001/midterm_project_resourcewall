@@ -301,13 +301,15 @@ app.get("/resources/search", (req, res) => {
 });
 
 app.get("/resources/:card_id", (req, res) => {
-  const templateVars = {};
   const { card_id } = req.params;
+  const templateVars = {
+    card_id
+  };
   const cardId = Number(card_id.replace(/:/, ""));
   //console.log(typeof cardId);
   /*-----   For the comment part -----*/
   knex
-  .select("*")
+  .select("")
   .from("users")
   .join("comments", { "users.id": "comments.user_id" })
   .then(results => {
@@ -350,8 +352,8 @@ app.get("/resources/:card_id", (req, res) => {
             .where({ id: topicId })
             .then(results => {
               templateVars.topic = results;
-              //res.send(templateVars);
-              res.render("one_resource", templateVars);
+              res.send(templateVars);
+              //res.render("one_resource", templateVars);
             });
         });
     });
@@ -546,16 +548,21 @@ app.post("/user/:id", (req, res) => {});
 
 app.post("/resources/:card_id", (req, res) => {
   const { text } = req.body;
+  const { card_id } = req.params;
+  const { user_id } = req.cookies;
+  
   //console.log(text)
 
   /* @@@ need to ad the user */
   knex("comments")
     .insert({
-      text
+      text,
+      user_id,
+      resource_id: card_id
     })
     .then(function(result) {
       console.log(result);
-      res.redirect("/resources/:card_id");
+      res.redirect(`/resources/${card_id}`);
     });
 });
 
