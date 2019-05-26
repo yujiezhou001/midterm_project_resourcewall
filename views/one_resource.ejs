@@ -5,24 +5,29 @@
   <main id="one-resource">
     <div>
       <section class="content">
-        <h1>ONE RESOURCE</h1>
+        <h1><%= resource[0].title %></h1>
 
-        <img src="http://placekitten.com/635/367" alt="">
+        <img src="<%=  topic[0].default_img %>" alt="">
         <h2></h2>
+        <section class="ratings">
+          <a href="/rating/1/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+          <a href="/rating/2/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+          <a href="/rating/3/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+          <a href="/rating/4/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+          <a href="/rating/5/<%= resource[0].id %>"><i class="far fa-star"></i></a>
+        </section>
+
         <div>
-          <a href="http://placekitten.com/635/367">http://placekitten.com/635/367</a>
+          <a href="<%= resource[0].url %>"><%= resource[0].url %></a>
         </div>
         <div>
-          <p>Decription</p>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consectetur aspernatur corporis quibusdam officia
-            atque. Expedita exercitationem laboriosam soluta explicabo? Minus asperiores optio deleniti nobis est,
-            voluptatum tempore voluptas? Aliquam, aliquid!</p>
+          <p><%= resource[0].description %></p>
         </div>
       </section>
       <section>
         <h3>Comments</h3>
 
-        <form class="comment-form" action="/resources/:card_id" method="POST">
+        <form class="comment-form" action="/resources/<%= card_id %>" method="POST">
           <div class="form-group">
             <textarea class="form-control" name="text" rows="3"></textarea>
           </div>
@@ -31,11 +36,13 @@
 
         <div class="box-comment">
 
-          <% for (var comment of comments) { %>
+          <% for (var comment of commentsuser) { %>
           <article>
             <div class="user-profile">
-              <%= comment.user_id %>
-              <%= comment.id %>
+              <%= comment.username %>
+              <% if (comment.username){
+                  comment.username
+              } %>
             </div>
             <div class="user-comment">
               <%= comment.text %>

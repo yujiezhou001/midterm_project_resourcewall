@@ -193,19 +193,18 @@ app.get("/resources", (req, res) => {
   if (req.cookies.user_id) {
     const templateVars = {};
 
-  knex
-    .select("*")
-    .from("resources")
-    .then(results => {
-      // res.send(results)
-      templateVars.resources = results;
-    })
-    .then(results => {
-      return knex
-        .select("*")
-        .from("topics")
+    knex
+      .select("*")
+      .from("resources")
+      .orderBy("created_at")
+      .then(results => {
+        // res.send(results)
+        templateVars.resources = results;
       })
-    .then(results => {
+      .then(results => {
+        return knex.select("*").from("topics");
+      })
+      .then(results => {
         templateVars.topics = results;
       })
     .finally(results => {
@@ -216,7 +215,6 @@ app.get("/resources", (req, res) => {
   } else {
     res.status(400).send("Error: Please log in first!");
   }
-
 
   // res.send(resources)
   // const topics = knex.select("*").from("topics")
@@ -306,25 +304,33 @@ app.get("/resources/search", (req, res) => {
   // )
 });
 
-
 app.get("/resources/:card_id", (req, res) => {
-  const templateVars = {};
-
+  const { card_id } = req.params;
+  const templateVars = {
+    card_id
+  };
+  const cardId = Number(card_id.replace(/:/, ""));
+  //console.log(typeof cardId);
+  /*-----   For the comment part -----*/
   knex
-    .select("*")
-    .from("comments")
-    .then(results => {
-     /*  @@@ voir comment refacto */
-     /* reverse function for object */
-      const reverseObj = (obj) => {
+  .select("")
+  .from("users")
+  .join("comments", { "users.id": "comments.user_id" })
+  .orderBy('created_at')
+  .then(results => {
+      /*  @@@ voir comment refacto */
+      /* reverse function for object */
+      const reverseObj = obj => {
         let newReversObj = [];
         Object.keys(obj)
-          .sort(function(a, b){return a-b})
+          .sort(function(a, b) {
+            return a - b;
+          })
           .reverse()
           .forEach(key => {
-            console.log(key);
             newReversObj.push({
               id: obj[key].id,
+              username:  obj[key].username,
               text: obj[key].text,
               user_id: obj[key].user_id,
               resource_id: obj[key].resource_id,
@@ -335,77 +341,108 @@ app.get("/resources/:card_id", (req, res) => {
         return newReversObj;
       };
 
-      templateVars.comments = reverseObj(results);
-      res.render("one_resource", templateVars);
+      templateVars.commentsuser = reverseObj(results);
+    })
+    .then(results => {
+      knex
+        .select("*")
+        .from("resources")
+        .where({ id: cardId })
+        .then(results => {
+          templateVars.resource = results;
+          const topicId = templateVars.resource[0].topic_id;
+          knex
+            .select("*")
+            .from("topics")
+            .where({ id: topicId })
+            .then(results => {
+              templateVars.topic = results;
+              // res.send(templateVars);
+              res.render("one_resource", templateVars);
+            });
+        });
     });
-});
 
+});
 
 app.get("/user/:id", (req, res) => {
   // const id = req.params.id;
   const id = req.cookies.user_id;
   const templateVars = {};
-  templateVars.id = req.cookies.user_id;
-  // console.log(id)
+  // console.log(id);
   knex
-  .select("*")
-  .from("users")
-  .where('id', id)
-  .then(results => {
-    // console.log(results[0])
-    templateVars.userinfo = results[0]
-    // console.log(templateVars)
-  res.render("profile", templateVars);
-  })
+    .select("*")
+    .from("users")
+    .where("id", id)
+    .then(results => {
+      // console.log(results[0]);
+      templateVars.userinfo = results[0];
+      // console.log(templateVars);
+      res.render("profile", templateVars);
+    });
 });
 
 app.get("/user/:id/my_resources", (req, res) => {
   const templateVars = {};
-  const userId = req.cookies.user_id
+  //userId: req.cookies.user_id
+  //const userId = req.params.id;
+  const userId = req.cookies.user_id;
   Promise.all([
-  knex
-    .select("*")
-    .from("resources")
-    .where({
-      user_id: userId
-    })
-    .then(results => {
-      templateVars.resources = results;
-    })
-    .then( () => {
-      knex
-        .select("*")
-        .from("topics")
-        .then( (results1) => {
-          templateVars.topics = results1;
-          knex.select('resource_id').from('pins').where('user_id',userId).then((result2)=>{
+    knex
+      .select("*")
+      .from("resources")
+      .where({
+        user_id: userId
+      })
+      .then(results => {
+        templateVars.resources = results;
+      })
+      .then(() => {
+        knex
+          .select("*")
+          .from("topics")
+          .then(results1 => {
+            templateVars.topics = results1;
             knex
-              .select("*")
-              .from("resources")
-              .whereIn('id', result2.map(resource=> resource.resource_id))
-              .then( (results3)=>{
-                results3.forEach(item=>templateVars.resources.push(item))
-                // console.log(templateVars);
-                res.render("my_resources", templateVars);
-              })
-          })
-        })
+              .select("resource_id")
+              .from("pins")
+              .where("user_id", userId)
+              .then(result2 => {
+                knex
+                  .select("*")
+                  .from("resources")
+                  .whereIn("id", result2.map(resource => resource.resource_id))
+                  .then(results3 => {
+                    results3.forEach(item => templateVars.resources.push(item));
+                    console.log(templateVars);
+                    res.render("my_resources", templateVars);
+                  });
+              });
+          });
+      })
+  ]);
+});
+
+app.get("/rating/:rating_value/:resource_id", (req, res) => {
+  const { rating_value, resource_id } = req.params;
+  /* @@@ need to ad the user - done*/
+  knex("ratings")
+    .insert({
+      user_id: req.cookies.user_id,
+      rating_value,
+      resource_id
     })
-  ])
-})
-
-
-app.get("/resources/:card_id", (req, res) => {
-  let templateVars = {
-  };
-  res.render("one_resource", templateVars);
+    .then(function(result) {
+      // console.log(result);
+      res.redirect("/resources/"+resource_id);
+    });
 });
 
 //------------- POST ----------//
 
 app.post("/login", (req, res) => {
-  const email = req.body.email
-  const password = req.body.password
+  const email = req.body.email;
+  const password = req.body.password;
   knex
   .select("*")
   .from("users")
@@ -440,7 +477,7 @@ app.post("/register", (req, res) => {
   })
 
 app.post("/logout", (req, res) => {
-  res.clearCookie("user_id")
+  res.clearCookie("user_id");
   res.redirect("/");
 });
 
@@ -466,70 +503,79 @@ app.post("/resources", (req, res) => {
 });
 
 app.post("/pins", (req, res) => {
+  // const { resource_id, user_id } = req.body
+  const obj = {
+    user_id: req.cookies.user_id,
+    resource_id: req.body.resourceId
+  };
 
-const obj = {
-             user_id: req.cookies.user_id,
-             resource_id: req.body.resourceId
-            }
+  console.log(obj);
 
-knex("pins")
-  .insert([obj])
-  .returning('id')
-  .into('pins')
-  .then(id => {
-    console.log("Pin number" + id + "has been added");
-  })
-  .then(res.redirect("/resources")
-  )
-})
-
-
+  knex("pins")
+    .insert(obj)
+    .then(result => {
+      console.log(result);
+    })
+    .then(result => {
+      res.redirect("/resources");
+    });
+});
 
 app.post("/user/:id", (req, res) => {
   const user_id = req.cookies.user_id;
   let myObject = {};
-    myObject.username = req.body.username;
-    myObject.email = req.body.email;
-    myObject.password = req.body.password;
-    myObject.user_img = req.body.avatar;
-  
-    if(myObject.username.length === 0){
-      delete myObject.username
-    }
-    if (myObject.email.length === 0){
-      delete myObject.email
-    }
-    if (myObject.password.length === 0){
-      delete myObject.password
-    }
-    if (myObject.user_img.length === 0){
-      delete myObject.user_img
-    }
-    knex('users')
-    .where ('id', user_id)
+  myObject.username = req.body.username;
+  myObject.email = req.body.email;
+  myObject.password = req.body.password;
+  myObject.user_img = req.body.avatar;
+
+  if (myObject.username.length === 0) {
+    delete myObject.username;
+  }
+  if (myObject.email.length === 0) {
+    delete myObject.email;
+  }
+  if (myObject.password.length === 0) {
+    delete myObject.password;
+  }
+  if (myObject.user_img.length === 0) {
+    delete myObject.user_img;
+  }
+  knex("users")
+    .where({ id: user_id })
     .update(myObject)
-    .then (results => {
-    res.redirect("/user/:id")
-    })
-  })
+    .then(results => {
+      res.redirect("/user/:id");
+    });
+});
 
-
+app.post("/user/:id", (req, res) => {});
+// templateVars.username = results[0].username
+// templateVars.email = results[0].email
+// templateVars.id = results[0].id
+// templateVars.user_img = results[0].user_img
+// }).then(res.render("profile", templateVars))
 
 app.post("/resources/:card_id", (req, res) => {
   const { text } = req.body;
+  const { card_id } = req.params;
+  const { user_id } = req.cookies;
+
+  //console.log(text)
+
   /* @@@ need to ad the user */
   knex("comments")
     .insert({
-      text
+      text,
+      user_id,
+      resource_id: card_id
     })
     .then(function(result) {
-      // console.log(result);
-      res.redirect("/resources/:card_id");
+      console.log(result);
+      res.redirect(`/resources/${card_id}`);
     });
 });
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
-
-// }

@@ -8,7 +8,7 @@
   > div {
     display: flex;
 
-    section {
+    > section {
       align-items: flex-start;
       display: flex;
       flex-direction: column;

@@ -1,14 +1,24 @@
 <% include ./partials/_head %>
   <body>
      <% include ./partials/_header %>
-    <h1>Your Profile</h1>
-    <h2>Avatar: </h2>
-    <img src="<%= userinfo.user_img %>"/>
-    <ul>
-      <li>Your Username: <%= userinfo.username %></li>
-      <li>Your Email: <%= userinfo.email %></li>
-      <li>Your Password: <%= userinfo.password %></li>
-    </ul>
+
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+     <div class="profilecard">
+       <div class = "information">
+       <img src="<%= userinfo.user_img %>">
+       <p class="username"><%= userinfo.username %></p>
+       <p class="email"><p>Your Email: <%= userinfo.email %></p>
+       <p class="password">Your Password: <%= userinfo.password %></p>
+       <div class = "redirect">
+          <a href="#"><i class="fa fa-dribbble"></i></a> 
+          <a href="#"><i class="fa fa-twitter"></i></a> 
+          <a href="#"><i class="fa fa-linkedin"></i></a> 
+          <a href="#"><i class="fa fa-facebook"></i></a> 
+         </div>
+      </div>
+     </div>
+
     <section>
       <form class="form-group" action="/user/id" method="POST">
         <div class="form-group mb-2">
@@ -23,7 +33,6 @@
           <button type="submit" class="btn btn-primary">Update</button>
         </div>
       </form>
-
     </section>
   </body>
 </html>
