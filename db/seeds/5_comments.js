@@ -15,7 +15,8 @@ exports.seed = function(knex, Promise) {
             { text: faker.lorem.sentence(), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}, 
             { text: faker.lorem.sentence(), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
             { text: faker.lorem.sentence(), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}
-          ])
+          ]),
+          knex.raw('SELECT setval(\'comments_id_seq\', (SELECT MAX(id) from "comments"));')
       ]);
     });
 };

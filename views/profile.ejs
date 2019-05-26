@@ -1,5 +1,4 @@
 <% include ./partials/_head %>
-
   <body>
      <% include ./partials/_header %>
     <h1>Your Profile</h1>
@@ -10,7 +9,6 @@
       <li>Your Email: <%= userinfo.email %></li>
       <li>Your Password: <%= userinfo.password %></li>
     </ul>
-    
     <section>
       <form class="form-group" action="/user/id" method="POST">
         <div class="form-group mb-2">

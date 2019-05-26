@@ -19,8 +19,9 @@ exports.seed = function(knex, Promise) {
             {url: 'https://youtu.be/zctLck0TJNk', title: 'Advanced drumming techniques', description: 'Video on best warm-up techniques before a big show and creativity', user_id: faker.random.number({min:1, max:10}), topic_id: 1},
             {url: 'https://dadwithapan.com/', title: 'Recipes for the busy dad', description: 'This blog is great if you’re a busy dad (partially or largely because you have kids) but you still need to feed them and yourself.', user_id: faker.random.number({min:1, max:10}), topic_id: 2},
             {url: 'https://www.rejectiontherapy.com/100-days-of-rejection-therapy', title: 'Do the 100 days of rejection challenge', description: 'blog on how to face & overcome rejection which is paramount to success as an entrepreneur', user_id: faker.random.number({min:1, max:10}), topic_id: 5},
-            {url: 'https://youtu.be/VWw_1-gEdLA', title: 'Magic tricks for beginners', description: 'Video showing easy magic tricks anyone can do!', user_id: faker.random.number({min:1, max:10}), topic_id: 3}
-          ])
+            {url: 'https://youtu.be/VWw_1-gEdLA', title: 'Magic tricks for beginners', description: 'Video showing easy magic tricks anyone can do!', user_id: faker.random.number({min:1, max:10}), topic_id: 6},
+          ]),
+          knex.raw('SELECT setval(\'resources_id_seq\', (SELECT MAX(id) from "resources"));')
       ]);
     });
 };

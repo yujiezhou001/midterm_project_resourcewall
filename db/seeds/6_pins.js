@@ -14,7 +14,8 @@ exports.seed = function(knex, Promise) {
         knex('pins').insert({id: 7, user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}),
         knex('pins').insert({id: 8, user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}),
         knex('pins').insert({id: 9, user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}),
-        knex('pins').insert({id: 10, user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})})
+        knex('pins').insert({id: 10, user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}),
+        knex.raw('SELECT setval(\'pins_id_seq\', (SELECT MAX(id) from "pins"));')
       ]);
     });
 };

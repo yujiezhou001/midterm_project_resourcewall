@@ -2,7 +2,7 @@
   <i class="fas fa-thumbtack icon-logo"></i><span class="icon-title">Resources wall</span>
 
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-    
+
     <form class="form-inline my-2 my-lg-0" method = "GET" action = "/resources/search">
       <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="myQuery">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -11,10 +11,10 @@
     <nav>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="/resources">Home <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">My resources</a>
+          <a class="nav-link" href="/user/id/my_resources">My resources </a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -22,9 +22,11 @@
             <i class="fas fa-user-circle"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="/user/id">Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#">Logout</a>
+            <form method = "POST" action = "/logout">
+            <input type="submit" value = "logout" class="dropdown-item">
+            </form>
           </div>
         </li>
       </ul>
@@ -32,3 +34,6 @@
     </nav>
 
 </header>
+
+
+<!-- <a class="dropdown-item" href="/logout">Logout</a> -->
