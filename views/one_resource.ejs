@@ -36,11 +36,11 @@
 
         <div class="box-comment">
 
-          <% for (var comment of comments) { %>
+          <% for (var comment of commentsuser) { %>
           <article>
             <div class="user-profile">
               <%= comment.user_id %>
-              <%= comment.id %>
+              <%= comment.username %>
             </div>
             <div class="user-comment">
               <%= comment.text %>

@@ -307,9 +307,10 @@ app.get("/resources/:card_id", (req, res) => {
   //console.log(typeof cardId);
   /*-----   For the comment part -----*/
   knex
-    .select("*")
-    .from("comments")
-    .then(results => {
+  .select("*")
+  .from("users")
+  .join("comments", { "users.id": "comments.user_id" })
+  .then(results => {
       /*  @@@ voir comment refacto */
       /* reverse function for object */
       const reverseObj = obj => {
@@ -322,6 +323,7 @@ app.get("/resources/:card_id", (req, res) => {
           .forEach(key => {
             newReversObj.push({
               id: obj[key].id,
+              username:  obj[key].username,
               text: obj[key].text,
               user_id: obj[key].user_id,
               resource_id: obj[key].resource_id,
@@ -331,10 +333,8 @@ app.get("/resources/:card_id", (req, res) => {
           });
         return newReversObj;
       };
-
-      templateVars.comments = reverseObj(results);
-      //res.send(templateVars)
-      //res.render("one_resource", templateVars);
+      
+      templateVars.commentsuser = reverseObj(results);
     })
     .then(results => {
       knex
@@ -343,9 +343,7 @@ app.get("/resources/:card_id", (req, res) => {
         .where({ id: cardId })
         .then(results => {
           templateVars.resource = results;
-          //res.send(templateVars);
           const topicId = templateVars.resource[0].topic_id;
-          console.log(typeof topicId);
           knex
             .select("*")
             .from("topics")
@@ -357,6 +355,7 @@ app.get("/resources/:card_id", (req, res) => {
             });
         });
     });
+  
 });
 
 app.get("/user/:id", (req, res) => {
