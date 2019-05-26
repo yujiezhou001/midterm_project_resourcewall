@@ -10,7 +10,6 @@ exports.seed = function(knex, Promise) {
         knex('ratings')
         .insert(
           [
-          
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
@@ -21,7 +20,8 @@ exports.seed = function(knex, Promise) {
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})},
             {rating_value: faker.random.number(5), user_id: faker.random.number({min:1, max:10}), resource_id: faker.random.number({min:1, max:10})}
-          ])
+          ]),
+          knex.raw('SELECT setval(\'ratings_id_seq\', (SELECT MAX(id) from "ratings"));')
       ]);
     });
 };

@@ -18,7 +18,8 @@ exports.seed = function(knex, Promise) {
 
       return Promise.all([
         knex.raw('ALTER SEQUENCE users_id_seq RESTART WITH 1'),
-        knex('users').insert(fakeUsers)
+        knex('users').insert(fakeUsers),
+        knex.raw('SELECT setval(\'users_id_seq\', (SELECT MAX(id) from "users"));')
       ]);
     });
 };

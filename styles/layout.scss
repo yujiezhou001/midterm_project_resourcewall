@@ -1,8 +1,22 @@
 // -----  Variable ------//
-$dark-grey: #656565; 
-$ligth-color: #eeeeee;
+$primary: #daebe8;
+$dark-grey: #87bdd8;
 
-$radius: 15px;
+$color1: #cfe0e8;
+$color2: #b7d7e8;
+$color3: #87bdd8;
+
+$color4: #daebe8;
+
+/*$yellow: #D79922;
+$grey: #EFE2BA;
+$red: #F13C20;
+$dark-blue: #4056A1;
+$light-blue: #C5CBE3;*/
+
+
+
+$radius: 30px;
 
 // ------ breakpoint  ----//
 
@@ -12,7 +26,7 @@ $breakpoint-medium: 1280px;
 // -----  Import ------//
 @import "views/index.scss";
 @import "views/one_resource.scss";
-
+@import "views/profile.scss";
 @import "modules/rating.scss";
 @import "modules/nav.scss";
 @import "modules/form.scss";
@@ -28,7 +42,7 @@ body {
   }
 
   main{
-    
+
 
   }
 }

@@ -207,10 +207,13 @@ app.get("/resources", (req, res) => {
       .then(results => {
         templateVars.topics = results;
       })
-      .finally(results => {
-        res.render("index", templateVars);
-        console.log(templateVars);
-      });
+    .finally(results => {
+      res.render("index", templateVars);
+      // console.log(templateVars);
+    })
+
+  } else {
+    res.status(400).send("Error: Please log in first!");
   }
 
   // res.send(resources)
@@ -234,7 +237,7 @@ app.get("/resources/topic/:name", (req, res) => {
     })
     .then(results => {
       templateVars.topics = results;
-      console.log(results[0].id);
+      // console.log(results[0].id);
       return results[0].id;
     })
     .then(id => {
@@ -244,7 +247,7 @@ app.get("/resources/topic/:name", (req, res) => {
         .where("topic_id", id)
         .then(results => {
           templateVars.resources = results;
-          console.log(templateVars);
+          // console.log(templateVars);
           res.render("index", templateVars);
         });
     });
@@ -350,15 +353,15 @@ app.get("/user/:id", (req, res) => {
   // const id = req.params.id;
   const id = req.cookies.user_id;
   const templateVars = {};
-  console.log(id);
+  // console.log(id);
   knex
     .select("*")
     .from("users")
     .where("id", id)
     .then(results => {
-      console.log(results[0]);
+      // console.log(results[0]);
       templateVars.userinfo = results[0];
-      console.log(templateVars);
+      // console.log(templateVars);
       res.render("profile", templateVars);
     });
 });
@@ -425,29 +428,37 @@ app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   knex
-    .select("*")
-    .from("users")
-    .where("email", email)
-    .andWhere("password", password)
-    .then(results => {
-      console.log(results[0].id);
-      res.cookie("user_id", results[0].id);
-      res.redirect("/resources");
-    });
-});
+  .select("*")
+  .from("users")
+  .where('email', email)
+  .andWhere('password', password)
+  .then(results => {
+    // console.log(results[0].id)
+    res.cookie("user_id", (results[0].id))
+    res.redirect("/resources")
+  })
+  .catch((err) => {
+    res.status(400).send("Error: Email or password doesn't match.")
+  })
+})
 
 app.post("/register", (req, res) => {
-  const { username, email, password } = req.body;
-
+  const { username, password, email } = req.body;
+  const user_img = faker.internet.avatar();
+  const userObject = {};
+  userObject.username = username;
+  userObject.password = password;
+  userObject.email = email;
+  userObject.user_img = user_img;
   knex("users")
-    .insert({ username, email, password, user_img: faker.internet.avatar() })
-    .then(function(result) {
-      console.log(result);
-      // ({ success: true, message: "ok" });
-      // res.redirect("/login");
-    });
-  // res.redirect("/login");
-});
+    .insert([userObject])
+    .returning('id')
+    .into('users')
+    .then(id => {
+      console.log("User number" + id + "has been added")
+    })
+    .then(res.redirect("/login"))
+  })
 
 app.post("/logout", (req, res) => {
   res.clearCookie("user_id");
@@ -462,11 +473,15 @@ app.post("/resources", (req, res) => {
       url,
       title,
       description,
-      topic_id,
-      user_id
+      user_id,
+      topic_id
+    })
+    .returning('id')
+    .into('resources')
+    .then(id => {
+      console.log("Resource number" + id + "has been added")
     })
     .then(function(result) {
-      console.log(result);
       res.redirect("/resources");
     });
 });
@@ -515,15 +530,6 @@ app.post("/user/:id", (req, res) => {
     .update(myObject)
     .then(results => {
       res.redirect("/user/:id");
-    });
-
-  knex("pins")
-    .insert(obj)
-    .then(result => {
-      console.log(result);
-    })
-    .then(result => {
-      res.redirect("/resources");
     });
 });
 
