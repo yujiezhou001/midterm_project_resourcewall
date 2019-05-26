@@ -40,7 +40,7 @@
           <article>
             <div class="user-profile">
               <%= comment.username %>
-              <% if (comment.username){
+              <% if (comment.username && comment.resource_id){
                   comment.username
               } %>
             </div>

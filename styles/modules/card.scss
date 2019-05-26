@@ -1,5 +1,19 @@
 section {
   .card {
     margin: 1em;
+    border-radius: $radius;
+    .card-img-top{
+    border-top-right-radius: $radius;
+    border-top-left-radius: $radius;
+    }
+      .btn-primary{
+      border-radius: $radius;
+      border-top-right-radius: $radius;
+      border-top-left-radius: $radius;
+      background-color: $primary;
+      color: $color3;
+      border: 1px solid $primary;
+      }
   }
+
 }
