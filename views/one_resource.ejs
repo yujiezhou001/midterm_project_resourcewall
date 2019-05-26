@@ -18,7 +18,9 @@
             <a href="/rating/5/<%= resource[0].id %>"><i class="far fa-star"></i></a>
           </section>
           <div>
-            <i class="fas fa-star"></i> <%= avrRating[0].rating_value %>
+             <% if (avrRating[0].rating_value !== null){ %>
+             <i class="fas fa-star"></i>
+            <%= avrRating[0].rating_value %> <% } %>
           </div>
         </div>
         <div>
