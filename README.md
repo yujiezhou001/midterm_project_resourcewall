@@ -8,13 +8,13 @@ Please register for an account and log in to be able to use Walrus.
 
 ## Screen Shots
 
-!["Screenshot of Register"](docs/register.png)
-!["Screenshot of Login"](docs/login.png)
 !["Screenshot of Main_Page"](docs/main_page.png)
 !["Screenshot of Add_Resource_Page"](docs/add_resource.png)
 !["Screenshot of My_Resource_Page"](docs/my_resource.png)
 !["Screenshot of Comment_Rating_Page"](docs/comment_rating.png)
 !["Screenshot of Profile_Page"](docs/profile.png)
+!["Screenshot of Register"](docs/register.png)
+!["Screenshot of Login"](docs/login.png)
 
 ## Running the App
 
