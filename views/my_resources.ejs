@@ -18,11 +18,13 @@
       <% for (var resource of resources) { %>
       <section>
         <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
+            <a href="/resources/<%= resource.id %>"> <img class="card-img-top"
+              src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
+          </a>
           <div class="card-body">
             <h5 class="card-title"><%= resource.title %></h5>
             <p class="card-text"><%= resource.description %></p>
-            <a href="<%= resource.url %>" class="btn btn-primary">Check it out!</a>
+            <a href="<%= resource.url %>" target="_blank" class="btn btn-primary">Check it out!</a>
           </div>
         </div>
       </section>
