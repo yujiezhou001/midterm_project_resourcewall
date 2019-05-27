@@ -112,11 +112,14 @@
           <a href="/resources/<%= resource.id %>"> <img class="card-img-top"
               src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
           </a>
-          <form method="POST" action="/pins"><button type="submit" name="resourceId" value="<%= resource.id %>"
+         
+          <div class="card-body">
+            <div class="content-h5-pin">
+            <h5 class="card-title"><%= resource.title %></h5> 
+            <form method="POST" action="/pins"><button type="submit" name="resourceId" value="<%= resource.id %>"
               class="btn"><i class="fas fa-thumbtack icon-logo"></i></button>
           </form>
-          <div class="card-body">
-            <h5 class="card-title"><%= resource.title %></h5>
+          </div>
             <p class="card-text"><%= resource.description %></p>
             <a href="<%= resource.url %>" target="_blank" class="btn"> Check it out!</a>
           </div>

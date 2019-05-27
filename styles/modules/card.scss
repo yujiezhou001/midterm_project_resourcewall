@@ -2,20 +2,23 @@ section {
   .card {
     margin: 1em;
     border-radius: $radius;
-    .card-img-top{
-    border-top-right-radius: $radius;
-    border-top-left-radius: $radius;
-    border-bottom-left-radius: initial;
-    border-bottom-right-radius: initial;
+    .card-img-top {
+      border-top-right-radius: $radius;
+      border-top-left-radius: $radius;
+      border-bottom-left-radius: initial;
+      border-bottom-right-radius: initial;
     }
 
-    .card-body{
-      padding-top: .8em;
-    }
-    form{
-      padding-top: .5em;
-    }
+    .content-h5-pin {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 0 .5em 0;
 
+      h5 {
+        margin: 0.5em 0 0 0;
+        font-size: 1.2em;
+        color: $color5;
+      }
+    }    
   }
-
 }

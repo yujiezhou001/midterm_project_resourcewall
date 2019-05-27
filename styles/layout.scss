@@ -47,7 +47,7 @@ body {
 
   button {
     &.btn {
-      border: 1px solid $color4;
+      border: 2px solid $color4;
       border-radius: $radius;
       color: $color5;
       background: #fff;
@@ -63,7 +63,7 @@ body {
 /* @@@ a fixer */
 a {
   &.btn {
-    border: 1px solid $color4;
+    border: 2px solid $color4;
     border-radius: $radius;
     color: $color5;
     background: #fff;

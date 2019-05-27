@@ -1,6 +1,20 @@
-.ratings{
-  
-    padding: .3em 0;
-  
-  
+.content-ratings {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  i {
+    color: $color5;
+  }
+  .ratings {
+    padding: 0.3em 0;
+
+    a {
+      i:hover {
+          color: $color5;
+          font-weight: 600;
+        
+      }
+    }
+  }
 }
