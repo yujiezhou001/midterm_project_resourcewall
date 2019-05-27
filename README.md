@@ -1,4 +1,4 @@
-# Node Skeleton
+# Walrus
 
 ## Project Description
 
