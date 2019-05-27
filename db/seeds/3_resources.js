@@ -10,7 +10,7 @@ exports.seed = function(knex, Promise) {
         knex('resources')
         .insert(
           [
-            {url: 'https://youtu.be/W6NZfCO5SIk', title: 'Javascript Tutorial',  description: 'Video tutorial on learning the basics of Javascript in 1 hour.', user_id: faker.random.number({min:1, max:10}), topic_id: 3},
+            {url: 'https://youtu.be/W6NZfCO5SIk', title: 'Javascript Tutorial',  description: 'Video tutorial on learning the basics of Javascript in 1 hour.', user_id: faker.random.number({min:1, max:10}), topic_id: 7},
             {url: 'https://www.kitchensanctuary.com/slow-cooked-spicy-chicken-curry/', title: 'new recipe', description: 'Spicy chicken curry!', user_id: faker.random.number({min:1, max:10}), topic_id: 2},
             {url: 'https://learnenglish.britishcouncil.org/english-grammar', title: 'Learn English', description: 'Tutorial on English grammar for beginners', user_id: faker.random.number({min:1, max:10}), topic_id: 3},
             {url: 'https://www.mydogsname.com/10-dog-craft-projects-that-are-easier-than-you-think/', title: 'Pet art!', description: '10 arts & crafts projects to do with your dog!', user_id: faker.random.number({min:1, max:10}), topic_id: 4},
