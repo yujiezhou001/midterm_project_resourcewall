@@ -1,10 +1,9 @@
 .profilecard {
     display: flex;
     justify-content: center;
-    border: solid 1px red;
   }
 
-img {
+.information img {
     align-items: center;
     border-radius: 70px;
 }
@@ -23,9 +22,25 @@ i {
 .profileform {
     display: flex;
     justify-content: center;
-    border: solid 1px red;
 }
 
-form{
-    align-items: center;
+label {
+    display: inline-block;
+    margin: 1em;
+    margin-bottom: 0px;
 }
+
+.form-control {
+    display: block;
+    padding: .375rem .75rem;
+    margin-top: 0px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+

@@ -1,7 +1,7 @@
 <% include ./partials/_head %>
   <body>
      <% include ./partials/_header %>
-     <main>
+     <main id ="profile">
 
      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -9,8 +9,8 @@
        <div class = "information">
        <img src="<%= userinfo.user_img %>">
        <p class="username"><%= userinfo.username %></p>
-       <p class="email"><p>Your Email: <%= userinfo.email %></p>
-       <p class="password">Your Password: <%= userinfo.password %></p>
+       <p class="email"><p>Email: <%= userinfo.email %></p>
+       <p class="password">Password: <%= userinfo.password %></p>
        <div class = "redirect">
           <a href="#"><i class="fa fa-dribbble"></i></a> 
           <a href="#"><i class="fa fa-twitter"></i></a> 
