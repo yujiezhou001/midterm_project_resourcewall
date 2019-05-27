@@ -3,7 +3,6 @@
 <body>
   <% include ./partials/_header %>
   <main id="index">
-    <h1></h1>
     <!-- The hidden form on homepage-->
     <section id="openning">
       <form class="form-adding" action="/resources" method="POST">
@@ -127,6 +126,7 @@
     </div>
 
   </main>
+  <% include ./partials/_footer %>
   <script>
     $("#openForm").click(function () {
       $("#openning").slideToggle("slow", function () {

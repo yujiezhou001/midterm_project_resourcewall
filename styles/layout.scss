@@ -9,6 +9,7 @@ $color3: #87bdd8;
 $color4: #daebe8;
 $color5: #154e6b;
 
+
 /*$yellow: #D79922;
 $grey: #EFE2BA;
 $red: #F13C20;
@@ -25,15 +26,20 @@ $breakpoint-medium: 1280px;
 @import "views/index.scss";
 @import "views/one_resource.scss";
 @import "views/profile.scss";
+@import "views/my_resources.scss";
 @import "modules/rating.scss";
-@import "modules/nav.scss";
+@import "modules/header.scss";
 @import "modules/form.scss";
 @import "modules/card.scss";
+@import "modules/footer.scss";
+
 
 // ----- Globale -----//
 body {
+  font-size: 18px!important;
   font-family: "Raleway", sans-serif;
   background-color: $dark-grey;
+  /* color: $color5!important; */
 
   h1 {
     color: #244751;
@@ -46,6 +52,11 @@ body {
       color: $color5;
       background: #fff;
       margin-left: 0.4em;
+
+      &:hover{
+        color: #fff!important;
+        background: $color3!important;
+      }
     }
   }
 }
@@ -57,7 +68,17 @@ a {
     color: $color5;
     background: #fff;
     margin-left: 0.4em;
+
+    &:hover{
+      color: #fff!important;
+      background: $color3!important;
+    }
   }
+  
+}
+
+main{
+  min-height: 100vh;
 }
 
 #login {
