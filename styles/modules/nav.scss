@@ -1,15 +1,16 @@
-.header {
-  i {
-    font-size: 1.6em;
-    .icon-logo {
-      color: $dark-grey;
-    }
-  }
+header { 
+ background: $color1;
 
+
+ 
   .icon-title {
-    color: $dark-grey;
+    font-size: 6em;
+    font-family: 'Indie Flower', cursive;
+    color: $color5;
     margin: 0 0.5em;
-    font-size: 1.6em;
+  }
+  .navbar-collapse{
+    flex-direction: column;
   }
 }
 
@@ -18,4 +19,10 @@
     margin-left: -3em;
     min-width: inherit;
   }
+
+ 
 }
+/* .search {
+  display: flex;
+  width: 100%;
+} */
