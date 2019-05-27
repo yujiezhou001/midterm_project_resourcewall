@@ -2,7 +2,7 @@
 
 <body>
   <% include ./partials/_header %>
-  <main>
+  <main id="index">
     <h1></h1>
     <!-- The hidden form on homepage-->
     <section id="openning">
@@ -88,16 +88,16 @@
     <!-- topic btn -->
 
     <!-- Topics buttons -->
-    <section>
-      <a href="/resources/topic/music"><button type="button" class="btn btn-outline-dark">Music</button></a>
-      <a href="/resources/topic/web_dev"><button type="button" class="btn btn-outline-dark">Web Dev</button> </a>
-      <a href="/resources/topic/cooking"><button type="button" class="btn btn-outline-dark">Cooking</button> </a>
-      <a href="/resources/topic/languages"><button type="button" class="btn btn-outline-dark">Languages</button> </a>
-      <a href="/resources/topic/arts_and_crafts"><button type="button" class="btn btn-outline-dark">Arts &
+    <section class="topic">
+      <a href="/resources/topic/music"><button type="button" class="btn topic-btn">Music</button></a>
+      <a href="/resources/topic/web_dev"><button type="button" class="btn topic-btn">Web Dev</button> </a>
+      <a href="/resources/topic/cooking"><button type="button" class="btn topic-btn">Cooking</button> </a>
+      <a href="/resources/topic/languages"><button type="button" class="btn topic-btn">Languages</button> </a>
+      <a href="/resources/topic/arts_and_crafts"><button type="button" class="btn topic-btn">Arts &
           Crafts</button></a>
-      <a href="/resources/topic/magic_tricks"><button type="button" class="btn btn-outline-dark">Magic
+      <a href="/resources/topic/magic_tricks"><button type="button" class="btn topic-btn">Magic
           Tricks</button></a>
-      <a href="/resources/topic/life_hacks"><button type="button" class="btn btn-outline-dark">Life Hacks</button></a>
+      <a href="/resources/topic/life_hacks"><button type="button" class="btn topic-btn">Life Hacks</button></a>
     </section>
 
     <!-- *********************** actual proper code but breaks page for now because no DB.****************** -->
@@ -110,15 +110,16 @@
       <% for (var resource of resources) { %>
       <section>
         <div class="card" style="width: 18rem;">
-          <a href="/resources/<%= resource.id %>"> <img class="card-img-top" src="<%= matchTopic(resource.topic_id).default_img; %>"
-              alt="Card image cap">
+          <a href="/resources/<%= resource.id %>"> <img class="card-img-top"
+              src="<%= matchTopic(resource.topic_id).default_img; %>" alt="Card image cap">
           </a>
           <form method="POST" action="/pins"><button type="submit" name="resourceId" value="<%= resource.id %>"
-              class="btn btn-primary">Pin it!<i class="fas fa-thumbtack icon-logo"></i></button></form>
+              class="btn"><i class="fas fa-thumbtack icon-logo"></i></button>
+          </form>
           <div class="card-body">
             <h5 class="card-title"><%= resource.title %></h5>
             <p class="card-text"><%= resource.description %></p>
-            <a href="<%= resource.url %>" target="_blank" class="btn btn-primary"> Check it out!</a>
+            <a href="<%= resource.url %>" target="_blank" class="btn"> Check it out!</a>
           </div>
         </div>
       </section>

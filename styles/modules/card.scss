@@ -5,15 +5,17 @@ section {
     .card-img-top{
     border-top-right-radius: $radius;
     border-top-left-radius: $radius;
+    border-bottom-left-radius: initial;
+    border-bottom-right-radius: initial;
     }
-      .btn-primary{
-      border-radius: $radius;
-      border-top-right-radius: $radius;
-      border-top-left-radius: $radius;
-      background-color: $primary;
-      color: $color3;
-      border: 1px solid $primary;
-      }
+
+    .card-body{
+      padding-top: .8em;
+    }
+    form{
+      padding-top: .5em;
+    }
+
   }
 
 }
