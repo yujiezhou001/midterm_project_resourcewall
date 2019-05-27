@@ -1,36 +1,36 @@
-.profilecard {
+#profile .profilecard {
     display: flex;
     justify-content: center;
   }
 
-.information img {
+#profile .information img {
     align-items: center;
     border-radius: 70px;
 }
-.information {
+#profile .information {
     align-items: center;
 }
 
-.redirect{
+#profile .redirect{
     align-items: center;
 }
 
-i {
+#profile i {
     align-items: bottom;
 }
 
-.profileform {
+#profile .profileform {
     display: flex;
     justify-content: center;
 }
 
-label {
+#profile label {
     display: inline-block;
     margin: 1em;
     margin-bottom: 0px;
 }
 
-.form-control {
+#profile .form-control {
     display: block;
     padding: .375rem .75rem;
     margin-top: 0px;
