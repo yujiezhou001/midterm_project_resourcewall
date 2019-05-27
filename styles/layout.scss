@@ -7,6 +7,7 @@ $color2: #b7d7e8;
 $color3: #87bdd8;
 
 $color4: #daebe8;
+$color5: #154e6b;
 
 /*$yellow: #D79922;
 $grey: #EFE2BA;
@@ -14,14 +15,11 @@ $red: #F13C20;
 $dark-blue: #4056A1;
 $light-blue: #C5CBE3;*/
 
-
-
 $radius: 30px;
 
 // ------ breakpoint  ----//
 
 $breakpoint-medium: 1280px;
-
 
 // -----  Import ------//
 @import "views/index.scss";
@@ -34,38 +32,52 @@ $breakpoint-medium: 1280px;
 
 // ----- Globale -----//
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   background-color: $dark-grey;
 
   h1 {
     color: #244751;
   }
 
-  main{
-
-
+  button {
+    &.btn {
+      border: 1px solid $color4;
+      border-radius: $radius;
+      color: $color5;
+      background: #fff;
+      margin-left: 0.4em;
+    }
+  }
+}
+/* @@@ a fixer */
+a {
+  &.btn {
+    border: 1px solid $color4;
+    border-radius: $radius;
+    color: $color5;
+    background: #fff;
+    margin-left: 0.4em;
   }
 }
 
-#login{
-    margin: 2em auto;
-    max-width: 500px;
-    width: 100%;
+#login {
+  margin: 2em auto;
+  max-width: 500px;
+  width: 100%;
 
-    nav{
-      font-size: 2em;
-      display: flex;
-    }
+  nav {
+    font-size: 2em;
+    display: flex;
+  }
 
-  form{
+  form {
     border: 1px solid #000;
     background: white;
     padding: 2em;
     border-radius: 15px;
 
-    input{
+    input {
       margin-bottom: 1em;
     }
   }
-
 }
